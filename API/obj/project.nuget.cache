@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "Yb/1UlF0H2g=",
+  "success": true,
+  "projectFilePath": "/home/besho/API/Engas/API/API.csproj",
+  "expectedPackageFiles": [
+    "/home/besho/.nuget/packages/microsoft.aspnetcore.openapi/9.0.9/microsoft.aspnetcore.openapi.9.0.9.nupkg.sha512",
+    "/home/besho/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512",
+    "/home/besho/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.9/microsoft.aspnetcore.app.ref.9.0.9.nupkg.sha512"
+  ],
+  "logs": []
+}
