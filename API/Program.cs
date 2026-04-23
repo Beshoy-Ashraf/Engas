@@ -9,15 +9,11 @@ builder.Services.AddDbContext<AppDBContext>(options => options.UseNpgsql(builder
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 builder.Services.RegisterBusinessServices();
 
-builder.Services.AddSwaggerGen(options =>
-{
-    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
-});
-
 builder.Services.AddCors(options =>
+
 {
     options.AddPolicy("AllowAll", policy =>
     {
@@ -30,8 +26,6 @@ builder.Services.AddCors(options =>
 
 
 var app = builder.Build();
-
-app.Urls.Add("http://0.0.0.0:5008");
 
 if (app.Environment.IsDevelopment())
 {
