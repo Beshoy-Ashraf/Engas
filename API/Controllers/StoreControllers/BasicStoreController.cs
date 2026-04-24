@@ -4,15 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 [Route("api/store")]
 [ApiController]
-public partial class StoreController : ControllerBase
+public partial class StoreController(ILogger<StoreController> logger, IStoreServices services) : ControllerBase
 {
-      private readonly ILogger<StoreController> _logger;
-      public IStoreServices _services { get; }
-
-      public StoreController(ILogger<StoreController> logger, IStoreServices services)
-      {
-            _logger = logger;
-            _services = services;
-      }
-
+      private readonly ILogger<StoreController> _logger = logger;
+      public IStoreServices _services { get; } = services;
 }

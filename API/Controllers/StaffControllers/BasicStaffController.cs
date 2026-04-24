@@ -3,15 +3,8 @@ using API.Services.StaffServices.interfaces;
 
 [Route("api/Staff")]
 [ApiController]
-public partial class StaffController : ControllerBase
+public partial class StaffController(ILogger<StaffController> logger, IStaffServices services) : ControllerBase
 {
-      private readonly ILogger<StaffController> _logger;
-      public IStaffServices _services { get; }
-
-      public StaffController(ILogger<StaffController> logger, IStaffServices services)
-      {
-            _logger = logger;
-            _services = services;
-      }
-
+      private readonly ILogger<StaffController> _logger = logger;
+      public IStaffServices _services { get; } = services;
 }

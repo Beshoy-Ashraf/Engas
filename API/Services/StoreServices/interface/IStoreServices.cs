@@ -10,6 +10,5 @@ namespace API.Services.StoreServices.interfaces
             Task<Guid> AddStore(AddStore newStore, CancellationToken cancellationToken);
             Task<Guid> UpdateStore(Guid id, AddStore storeData, CancellationToken cancellationToken);
             Task DeleteStore(Guid id, CancellationToken cancellationToken);
-            Task UpdateStore(Guid id, CancellationToken cancellationToken);
       }
 }
