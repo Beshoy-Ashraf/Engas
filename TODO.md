@@ -1,71 +1,8 @@
-# خطة إصلاح index.html
+# Fix NullReferenceException in StoreStockService
 
-## المشاكل المكتشفة
-1. **تلف الترميز**: جميع النصوص العربية ظاهرة كـ `?????` (فقدان UTF-8)
-2. **HTML مكسور**: مفقود علامات إغلاق (closing tags) في كثير من العناصر
-3. **JavaScript تالف**: مفقود علامات اقتباس حول المتغيرات والنصوص
-
-## خطة الإصلاح
-
-### الملف المستهدف
-- `frontend/index.html` (إعادة بناء كاملة)
-
-### الملفات المرجعية (للنصوص العربية)
-- `frontend/pages/branches.html`
-- `frontend/pages/employees.html`
-- `frontend/pages/products.html`
-- `frontend/pages/branch-dashboard.html`
-- `frontend/js/employees-data.js`
-- `frontend/js/theme.js`
-
-### التعديلات المطلوبة
-
-**1. إعادة بناء HTML:**
-- إضافة `<!DOCTYPE html>` مع `lang="ar" dir="rtl"`
-- `<meta charset="UTF-8">` صحيح
-- إغلاق جميع العناصر (div, span, li, button, etc.)
-- وضع علامات اقتباس حول كل قيم السمات
-
-**2. استعادة النصوص العربية:**
-- العنوان: `الرئيسية - Engas`
-- القائمة الجانبية: `الرئيسية`, `الأفرع`, `الموظفين`, `المنتجات`, `العملاء`, `لوحة الفرع`
-- `مرحباً بك في نظام Engas`
-- `تبديل المظهر`
-- `تسجيل الخروج`
-- `لوحة التحكم`
-- `إجراءات سريعة`
-- `إضافة فرع`, `إضافة موظف`, `المنتجات`, `إضافة عميل`, `تسجيل فرع`, `دخول الموظفين`
-- `ملخص الفروع`, `نشط`
-- `آخر التحديثات`, `اليوم`
-- `فريق العمل`, `عرض الكل`
-- `تم بنجاح`, `تمت العملية بنجاح`
-- `صباح الخير`, `مساء الخير`, `مساء النور`
-
-**3. إصلاح JavaScript:**
-- إصلاح `roleIcons` (قيم بين علامات اقتباس)
-- إصلاح `DOMContentLoaded` (نص وليس متغير)
-- إصلاح جميع `document.getElementById('...')`
-- إصلاح النصوص العربية في `updateWelcomeMessage()`
-- إصلاح Template literals في `innerHTML`
-- إصلاح أخطاء الإغلاق `)` و `}` و `]`
-- إضافة `window.` لمتغيرات `branches` إذا كانت global
-
-**4. التنسيق:**
-- تدريج (indentation) منظم 4 مسافات
-- تعليقات واضحة للأقسام
-- فصل بين HTML, CSS, JavaScript بشكل منطقي
-
-## الملفات التي لن تُعدل
-- جميع ملفات `frontend/pages/*.html`
-- جميع ملفات `frontend/js/*.js`
-- جميع ملفات `frontend/css/*.css`
-- جميع ملفات `API/`
-
-## خطوات التنفيذ
-- [ ] توثيق الخطة في TODO.md
-- [ ] الموافقة على الخطة
-- [ ] كتابة ملف index.html الجديد
-- [ ] التحقق من صحة HTML جائزة
-- [ ] التحقق من عدم وجود أخطاء JavaScript syntax
-- [ ] التحقق من عرض النصوص العربية بشكل صحيح
+# Steps
+- [x] 1. Analyze code and identify root cause
+- [x] 2. Fix `GetStoreStocks` in `StoreStockService.cs` — add `.Include(x => x.Item)`
+- [ ] 3. Fix `GetItemInAllStores` in `GetStoreStockController.cs` — fix route, call correct service, return correct variable
+- [ ] 4. Build project to verify
 

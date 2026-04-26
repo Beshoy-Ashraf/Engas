@@ -7,6 +7,7 @@ using API.Contract.User.Response;
 using API.Core.Enums;
 using API.Data.Models.Staff;
 using API.Data.Models.Store;
+using API.Data.Models.StoreStock;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -31,6 +32,8 @@ public class AuthService : IAuthService
 
         if (await _db.Staffs.AnyAsync(u => u.SSN == registerRequest.SSN && u.DeletedDate == null, ct))
             throw new ArgumentException("This SSN already exists");
+        var storeStock = new List<StoreStockLevel>();
+
 
         var staff = new Staff
         {
@@ -61,6 +64,7 @@ public class AuthService : IAuthService
         if (await _db.Stores.AnyAsync(u => u.Code == registerRequest.Code && u.DeletedDate == null, ct))
             throw new ArgumentException("This UserName already exists");
 
+        var storeStock = new List<StoreStockLevel>();
 
         var store = new Store
         {
@@ -69,6 +73,7 @@ public class AuthService : IAuthService
             Password = registerRequest.Password,
             City = registerRequest.City,
             Phone = registerRequest.Phone,
+            StoreStockLevel = storeStock,
             CreatedDate = DateTime.UtcNow,
             UpdatedDate = DateTime.UtcNow,
         };

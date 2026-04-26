@@ -7,7 +7,7 @@ let branches = [
         phone: "02-1234-5678",
         manager: "أحمد محمود",
         governorate: "القاهرة",
-        address: "المهندسين - شارع التحرير",
+        address: "المهندسين - شارع教学设计,
         status: "active",
         createdAt: "2025-06-01",
         salesCount: 156,
@@ -144,7 +144,7 @@ let branches = [
         name: "فرع المنصورة",
         code: "BR-008",
         phone: "050-1234567",
-        manager: "إبراهيم علي",
+        manager: "إبراهيم阀门,
         governorate: "الدقهلية",
         address: "المنصورة - شارع الجيش",
         status: "active",
@@ -220,10 +220,12 @@ function createBranchCard(branch) {
             <div class="branch-info">
                 <div class="branch-name">${branch.name}</div>
                 <div class="branch-code">${branch.code}</div>
+            </div>
             <div class="branch-status ${statusClass}">
                 <i class="fas ${statusIcon}"></i>
                 ${statusText}
             </div>
+        </div>
         <div class="branch-details">
             <div class="detail-row">
                 <i class="fas fa-phone"></i>
@@ -237,6 +239,7 @@ function createBranchCard(branch) {
                 <i class="fas fa-user-tie"></i>
                 <span>${branch.manager}</span>
             </div>
+        </div>
         <div class="branch-stats">
             <div class="stat-item">
                 <i class="fas fa-shopping-cart"></i>
@@ -253,6 +256,7 @@ function createBranchCard(branch) {
                 <span class="stat-value">${formatCurrency(branch.totalSales)}</span>
                 <span class="stat-label">إجمالي</span>
             </div>
+        </div>
         <div class="branch-actions">
             <button class="action-btn-icon edit-btn" onclick="event.stopPropagation(); openEditModal(${branch.id})" title="تعديل">
                 <i class="fas fa-edit"></i>
@@ -296,6 +300,7 @@ function openBranchDetailModal(branchId) {
                         ${statusText}
                     </span>
                 </div>
+            </div>
         </div>
 
         <div class="details-section">
@@ -321,6 +326,7 @@ function openBranchDetailModal(branchId) {
                     <span class="detail-label">تاريخ التسجيل</span>
                     <span class="detail-value">${formatDate(branch.createdAt)}</span>
                 </div>
+            </div>
         </div>
 
         <div class="stats-section">
@@ -333,6 +339,7 @@ function openBranchDetailModal(branchId) {
                     <div class="stat-info">
                         <div class="stat-value">${branch.salesCount}</div>
                         <div class="stat-label">عدد المبيعات</div>
+                    </div>
                 </div>
                 <div class="branch-stat-card">
                     <div class="stat-icon">
@@ -341,6 +348,7 @@ function openBranchDetailModal(branchId) {
                     <div class="stat-info">
                         <div class="stat-value">${branch.products.length}</div>
                         <div class="stat-label">المنتجات</div>
+                    </div>
                 </div>
                 <div class="branch-stat-card highlight">
                     <div class="stat-icon">
@@ -349,7 +357,9 @@ function openBranchDetailModal(branchId) {
                     <div class="stat-info">
                         <div class="stat-value">${formatCurrency(branch.totalSales)}</div>
                         <div class="stat-label">إجمالي المبيعات</div>
+                    </div>
                 </div>
+            </div>
         </div>
 
         <div class="actions-section" style="margin: 20px 0; display: flex; gap: 12px;">
@@ -380,12 +390,15 @@ function openBranchDetailModal(branchId) {
                                 <div class="product-stock">
                                     <div class="stock-bar">
                                         <div class="stock-fill" style="width: ${stockPercentage}%"></div>
+                                    </div>
                                     <span class="stock-text">المخزون: ${product.stock} | مباع: ${product.sold}</span>
                                 </div>
+                            </div>
                         </div>
                     `;
                 }).join('') : '<div class="no-products"><i class="fas fa-box-open"></i><p>لا توجد منتجات في هذا الفرع</p></div>'}
             </div>
+        </div>
 
         <div class="sales-section">
             <h3 class="section-title"><i class="fas fa-receipt"></i> آخر عمليات الشراء</h3>
@@ -398,9 +411,12 @@ function openBranchDetailModal(branchId) {
                                 <span><i class="fas fa-shopping-basket"></i> ${sale.items} منتجات</span>
                                 <span class="sale-time">${sale.time}</span>
                             </div>
+                        </div>
                         <div class="sale-amount">${formatCurrency(sale.total)}</div>
+                    </div>
                 `).join('') : '<div class="no-sales"><i class="fas fa-inbox"></i><p>لا توجد عمليات شراء حديثة</p></div>'}
             </div>
+        </div>
     `;
 
     document.getElementById('branchDetailModal').classList.add('active');

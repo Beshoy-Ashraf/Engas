@@ -18,7 +18,7 @@ public partial class ItemController : ControllerBase
                   return BadRequest("Can't update Item " + e);
             }
       }
-      [HttpPut("{id:Guid}/price/{price:double}")]
+      [HttpPut("{id:Guid}/price")]
       public async Task<ActionResult<List<ItemResponse>>> UpdateItemPrice([FromRoute] Guid id, [FromRoute] double price, CancellationToken cancellationToken)
       {
             try
