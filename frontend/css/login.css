@@ -88,28 +88,40 @@
     box-shadow: 0 0 0 3px rgba(58, 124, 165, 0.1);
 }
 
+/* Password wrapper - toggle button OUTSIDE input */
 .password-wrapper {
-    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .password-wrapper input {
-    width: 100%;
-    padding-left: 45px;
+    flex: 1;
+    padding-left: 16px;
+    padding-right: 16px;
 }
 
 .toggle-password {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
     color: var(--text-muted);
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 16px;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    margin-left: 8px;
 }
 
 .toggle-password:hover {
     color: var(--primary);
+    border-color: var(--primary);
+    background: rgba(58, 124, 165, 0.1);
 }
 
 .form-options {
