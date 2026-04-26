@@ -1,6 +1,7 @@
 using API.Contract.User.Request;
 using API.Contract.User.Response;
-using API.Services.Auth;
+using API.Services.AuthServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -15,7 +16,7 @@ public class AuthController : ControllerBase
       {
             _authService = authService;
       }
-
+      [Authorize(Roles = "Admin")]
       [HttpPost("register")]
       public async Task<ActionResult<TokenResponse>> Register([FromBody] UserRegistrationRequest request, CancellationToken ct)
       {
@@ -51,6 +52,7 @@ public class AuthController : ControllerBase
                   return StatusCode(500, ex.Message);
             }
       }
+      [Authorize(Roles = "Admin")]
       [HttpPost("store/register")]
       public async Task<ActionResult<TokenResponse>> StoreRegister([FromBody] StoreRegistrationRequest request, CancellationToken ct)
       {

@@ -7,29 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Services.StoreServices;
 
-public class StoreServices(AppDBContext dbContext, IServiceProvider serviceProvider, ILogger<StoreServices> logger) : IStoreServices
+public class StoreServices(AppDBContext dbContext, ILogger<StoreServices> logger) : IStoreServices
 {
       private readonly AppDBContext _dbContext = dbContext;
-      private readonly IServiceProvider _serviceProvider = serviceProvider;
       private readonly ILogger<StoreServices> _logger = logger;
 
-      public async Task<Guid> AddStore(AddStore newStore, CancellationToken cancellationToken)
-      {
-            var store = new Store
-            {
-                  Name = newStore.Name,
-                  Password = newStore.Password,
-                  Code = newStore.Code,
-                  City = newStore.City,
-                  Phone = newStore.Phone,
-                  CreatedDate = DateTime.UtcNow,
-                  UpdatedDate = DateTime.UtcNow,
-            };
-            await _dbContext.Stores.AddAsync(store, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return store.Id;
 
-      }
       public async Task<Guid> UpdateStore(Guid id, AddStore storeData, CancellationToken cancellationToken)
       {
 

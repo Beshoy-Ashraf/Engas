@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace API.Services.Auth;
+namespace API.Services.AuthServices;
 
 public class AuthService : IAuthService
 {

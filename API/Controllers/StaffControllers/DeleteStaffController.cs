@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 public partial class StaffController : ControllerBase
 {
 
-      [HttpDelete]
-      public async Task<ActionResult> Delete([FromBody] Guid id, CancellationToken cancellationToken)
+      [HttpDelete("{id:Guid}")]
+      public async Task<ActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
       {
             try
             {

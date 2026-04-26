@@ -5,33 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Services.StaffServices;
 
-public class StaffServices : IStaffServices
+public class StaffServices(AppDBContext dbContext, ILogger<StaffServices> logger) : IStaffServices
 {
-      private readonly AppDBContext _dbContext;
-      private readonly ILogger<StaffServices> _logger;
-
-      public StaffServices(AppDBContext dbContext, IServiceProvider serviceProvider, ILogger<StaffServices> logger)
-      {
-            _dbContext = dbContext;
-            _logger = logger;
-      }
-
-      public async Task<Guid> AddStaff(AddStaff newStaff, CancellationToken cancellationToken)
-      {
-            var Staff = new Staff
-            {
-                  Name = $"{newStaff.FirstName} {newStaff.LastName}",
-                  Password = newStaff.Password,
-                  UserName = newStaff.UserName,
-                  Phone = newStaff.Phone,
-                  SSN = newStaff.SSN,
-                  CreatedDate = DateTime.UtcNow,
-                  UpdatedDate = DateTime.UtcNow,
-            };
-            await _dbContext.Staffs.AddAsync(Staff, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return Staff.Id;
-      }
+      private readonly AppDBContext _dbContext = dbContext;
+      private readonly ILogger<StaffServices> _logger = logger;
 
       public async Task<Guid> UpdateStaff(Guid id, AddStaff StaffData, CancellationToken cancellationToken)
       {

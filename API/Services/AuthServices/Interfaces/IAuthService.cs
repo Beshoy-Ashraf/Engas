@@ -2,7 +2,7 @@
 using API.Contract.User.Request;
 using API.Contract.User.Response;
 
-namespace API.Services.Auth;
+namespace API.Services.AuthServices;
 
 public interface IAuthService
 {

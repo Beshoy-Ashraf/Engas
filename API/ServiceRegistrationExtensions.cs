@@ -1,4 +1,4 @@
-using API.Services.Auth;
+using API.Services.AuthServices;
 using API.Services.StaffServices;
 using API.Services.StaffServices.interfaces;
 using API.Services.StoreServices;
