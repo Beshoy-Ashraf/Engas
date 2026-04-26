@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Engas - لوحة التحكم</title>
+    <title>الرئيسية - Engas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
         <div class="site-logo">
             <img src="img/logo.png" alt="Engas Logo">
         </div>
+        <div class="site-name">Engas</div>
         <ul class="nav-menu">
             <li class="nav-item">
-                <a href="#" class="nav-link active">
+                <a href="index.html" class="nav-link active">
                     <i class="fas fa-home"></i>
                     <span>الرئيسية</span>
                 </a>
@@ -41,87 +43,65 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>الطلبات</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-user-tie"></i>
+                <a href="pages/employees.html" class="nav-link">
+                    <i class="fas fa-users"></i>
                     <span>الموظفين</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-box"></i>
-                    <span>الأصناف</span>
+                <a href="pages/products.html" class="nav-link">
+                    <i class="fas fa-box-open"></i>
+                    <span>المنتجات</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-cog"></i>
-                    <span>الإعدادات</span>
+                <a href="pages/CST.html" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>العملاء</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="pages/branch-dashboard.html" class="nav-link">
+                    <i class="fas fa-store"></i>
+                    <span>لوحة الفرع</span>
                 </a>
             </li>
         </ul>
     </nav>
 
+    <!-- Main Content -->
     <main class="main-content" id="mainContent">
+        <!-- Top Bar -->
         <div class="top-bar">
-            <button class="menu-toggle" id="menuToggle">
-                <i class="fas fa-bars"></i>
-            </button>
-            <h1 class="page-title">لوحة التحكم</h1>
-            <div class="theme-toggle-modern" id="themeToggle" title="تبديل المظهر">
-                <div class="toggle-slider">
-                    <i class="fas fa-moon"></i>
-                    <i class="fas fa-sun"></i>
+            <div class="header-left">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title">لوحة التحكم</h1>
+                <div class="welcome-message" id="welcomeMessage">مرحباً بك في نظام Engas</div>
+            </div>
+            <div class="nav-actions">
+                <div class="theme-toggle-modern" id="themeToggle" title="تبديل المظهر">
+                    <div class="toggle-slider">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                    </div>
                 </div>
+                <button class="btn-logout" id="btnLogout" title="تسجيل الخروج">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
             </div>
         </div>
 
-        <section class="cards-grid">
-            <div class="glass-card report-card">
-                <div class="card-icon">
-                    <i class="fas fa-calendar-day"></i>
-                </div>
-                <div class="card-title">التقرير اليومي</div>
-                <div class="card-value">1,247</div>
-            </div>
-            <div class="glass-card report-card">
-                <div class="card-icon">
-                    <i class="fas fa-calendar-week"></i>
-                </div>
-                <div class="card-title">التقرير الأسبوعي</div>
-                <div class="card-value">8,432</div>
-            </div>
-            <div class="glass-card report-card">
-                <div class="card-icon">
-                    <i class="fas fa-calendar-alt"></i>
-                </div>
-                <div class="card-title">التقرير الشهري</div>
-                <div class="card-value">34,891</div>
-            </div>
-        </section>
-
-        <section class="stats-grid">
+        <!-- Stats Grid -->
+        <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-icon">
                     <i class="fas fa-code-branch"></i>
                 </div>
                 <div class="stat-info">
-                    <h3>12</h3>
-                    <p>عدد الأفرع</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-box"></i>
-                </div>
-                <div class="stat-info">
-                    <h3>348</h3>
-                    <p>عدد الأصناف</p>
+                    <h3 id="branchesCount">0</h3>
+                    <p>فروع</p>
                 </div>
             </div>
             <div class="stat-card">
@@ -129,14 +109,33 @@
                     <i class="fas fa-users"></i>
                 </div>
                 <div class="stat-info">
-                    <h3>1,892</h3>
-                    <p>عدد العملاء</p>
+                    <h3 id="employeesCount">0</h3>
+                    <p>موظفين</p>
                 </div>
             </div>
-        </section>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-box-open"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="productsCount">0</h3>
+                    <p>منتجات</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="salesCount">0</h3>
+                    <p>مبيعات</p>
+                </div>
+            </div>
+        </div>
 
-        <section class="buttons-section">
-            <h2 class="section-title">العمليات السريعة</h2>
+        <!-- Quick Actions -->
+        <div class="buttons-section">
+            <h2 class="section-title">إجراءات سريعة</h2>
             <div class="buttons-grid">
                 <a href="pages/CST.html" class="action-btn" id="addCustomerBtn">
                     <i class="fas fa-user-plus"></i>
@@ -147,8 +146,12 @@
                     <span>عرض العملاء</span>
                 </a>
                 <a href="pages/register-branch.html" class="action-btn">
-                    <i class="fas fa-plus-square"></i>
-                    <span>إضافة فرع</span>
+                    <i class="fas fa-store"></i>
+                    <span>تسجيل فرع</span>
+                </a>
+                <a href="pages/login-staff.html" class="action-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>دخول الموظفين</span>
                 </a>
                 <a href="pages/branches.html" class="action-btn">
                     <i class="fas fa-list"></i>
@@ -171,110 +174,55 @@
                     <span>عرض قائمة الموظفين</span>
                 </button>
             </div>
-        </section>
+        </div>
 
-        <section class="bottom-section">
+        <!-- Bottom Section -->
+        <div class="bottom-section">
+            <!-- Branches Summary -->
             <div class="summary-card">
                 <div class="summary-header">
-                    <h3>ملخص طلبات اليوم</h3>
-                    <span class="badge">جديد</span>
+                    <h3>ملخص الفروع</h3>
+                    <span class="badge" id="activeBranchesBadge">0 نشط</span>
                 </div>
-                <ul class="summary-list">
-                    <li class="summary-item">
-                        <div class="summary-item-left">
-                            <div class="summary-item-icon">
-                                <i class="fas fa-shopping-cart"></i>
-                            </div>
-                            <div class="summary-item-info">
-                                <h4>طلبات قيد التنفيذ</h4>
-                                <p>تم استلامها اليوم</p>
-                            </div>
-                        </div>
-                        <span class="summary-item-value">24</span>
-                    </li>
-                    <li class="summary-item">
-                        <div class="summary-item-left">
-                            <div class="summary-item-icon">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                            <div class="summary-item-info">
-                                <h4>طلبات مكتملة</h4>
-                                <p>تم تسليمها اليوم</p>
-                            </div>
-                        </div>
-                        <span class="summary-item-value">18</span>
-                    </li>
-                    <li class="summary-item">
-                        <div class="summary-item-left">
-                            <div class="summary-item-icon">
-                                <i class="fas fa-times-circle"></i>
-                            </div>
-                            <div class="summary-item-info">
-                                <h4>طلبات ملغاة</h4>
-                                <p>تم إلغاؤها اليوم</p>
-                            </div>
-                        </div>
-                        <span class="summary-item-value">3</span>
-                    </li>
-                    <li class="summary-item">
-                        <div class="summary-item-left">
-                            <div class="summary-item-icon">
-                                <i class="fas fa-money-bill-wave"></i>
-                            </div>
-                            <div class="summary-item-info">
-                                <h4>إجمالي المبيعات</h4>
-                                <p>مبيعات اليوم</p>
-                            </div>
-                        </div>
-                        <span class="summary-item-value">$12,450</span>
-                    </li>
+                <ul class="summary-list" id="branchesSummaryList">
+                    <!-- Populated by JS -->
                 </ul>
             </div>
 
+            <!-- Recent Updates -->
             <div class="summary-card">
                 <div class="summary-header">
-                    <h3>تحديثات الأفرع</h3>
-                    <span class="badge">مباشر</span>
+                    <h3>آخر التحديثات</h3>
+                    <span class="badge">اليوم</span>
                 </div>
-                <div class="updates-list">
+                <div id="recentUpdatesList">
                     <div class="update-item">
                         <div class="update-dot"></div>
                         <div class="update-content">
-                            <h4>فرع الرياض - العليا</h4>
-                            <p>تم إضافة 15 صنف جديد • منذ 10 دقائق</p>
-                        </div>
-                    </div>
-                    <div class="update-item">
-                        <div class="update-dot"></div>
-                        <div class="update-content">
-                            <h4>فرع جدة - الحمراء</h4>
-                            <p>تم إكمال 8 طلبات • منذ 25 دقيقة</p>
-                        </div>
-                    </div>
-                    <div class="update-item">
-                        <div class="update-dot"></div>
-                        <div class="update-content">
-                            <h4>فرع الدمام - الشاطئ</h4>
-                            <p>تم تحديث بيانات الموظفين • منذ ساعة</p>
-                        </div>
-                    </div>
-                    <div class="update-item">
-                        <div class="update-dot"></div>
-                        <div class="update-content">
-                            <h4>فرع مكة - العزيزية</h4>
-                            <p>تم تسجيل 12 عميل جديد • منذ ساعتين</p>
-                        </div>
-                    </div>
-                    <div class="update-item">
-                        <div class="update-dot"></div>
-                        <div class="update-content">
-                            <h4>فرع المدينة - قباء</h4>
-                            <p>تم إغلاق الطلبات للصيانة • منذ 3 ساعات</p>
+                            <h4>نظام Engas</h4>
+                            <p>مرحباً بك في نظام إدارة المبيعات والفروع</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+
+        <!-- Employees Showcase Section -->
+        <div class="employees-showcase">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-users-cog"></i>
+                    فريق العمل
+                </h2>
+                <a href="pages/employees.html" class="view-all-link">
+                    <span>عرض الكل</span>
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+            <div class="employees-preview-grid" id="employeesPreviewGrid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
     </main>
 
     <!-- Toast Notification -->
@@ -284,7 +232,7 @@
         </div>
         <div class="toast-content">
             <h4>تم بنجاح</h4>
-            <p>تم حفظ بيانات العميل بنجاح</p>
+            <p id="toastMessage">تمت العملية بنجاح</p>
         </div>
         <button class="toast-close" id="toastClose">&times;</button>
     </div>
@@ -363,5 +311,175 @@
 
     <script src="js/theme.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/employees-data.js"></script>
+    <script>
+        // Role icons mapping
+        const roleIcons = {
+            manager: 'fa-user-tie',
+            supervisor: 'fa-user-shield',
+            sales: 'fa-user-plus',
+            support: 'fa-headset',
+            warehouse: 'fa-boxes'
+        };
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            updateWelcomeMessage();
+            loadStats();
+            loadBranchesSummary();
+            loadEmployeesPreview();
+            setupLogout();
+        });
+
+        // Welcome message with time-based greeting
+        function updateWelcomeMessage() {
+            const welcomeMsg = document.getElementById('welcomeMessage');
+            if (!welcomeMsg) return;
+
+            const now = new Date();
+            const hour = now.getHours();
+            let greeting = 'مرحباً';
+            if (hour < 12) greeting = 'صباح الخير';
+            else if (hour < 18) greeting = 'مساء الخير';
+            else greeting = 'مساء النور';
+
+            const staffName = localStorage.getItem('staffName') || 'زائرنا الكريم';
+            welcomeMsg.innerHTML = `<span style="color: var(--accent); font-weight: 600;">${greeting} ${staffName}</span> في نظام Engas`;
+        }
+
+        // Load statistics
+        function loadStats() {
+            // Branches count
+            const branchesCount = typeof branches !== 'undefined' ? branches.length : 8;
+            document.getElementById('branchesCount').textContent = branchesCount;
+
+            // Employees count
+            const employeesCount = window.employees ? window.employees.length : 7;
+            document.getElementById('employeesCount').textContent = employeesCount;
+
+            // Products count (from branches data)
+            let productsCount = 0;
+            let salesCount = 0;
+            if (typeof branches !== 'undefined') {
+                branches.forEach(branch => {
+                    if (branch.products) {
+                        productsCount += branch.products.length;
+                    }
+                    salesCount += branch.salesCount || 0;
+                });
+            }
+            document.getElementById('productsCount').textContent = productsCount;
+            document.getElementById('salesCount').textContent = salesCount;
+
+            // Active branches badge
+            const activeBranches = typeof branches !== 'undefined' ? branches.filter(b => b.status === 'active').length : 7;
+            document.getElementById('activeBranchesBadge').textContent = activeBranches + ' نشط';
+        }
+
+        // Load branches summary
+        function loadBranchesSummary() {
+            const list = document.getElementById('branchesSummaryList');
+            if (!list) return;
+
+            const branchesData = typeof branches !== 'undefined' ? branches.slice(0, 5) : [];
+            
+            if (branchesData.length === 0) {
+                list.innerHTML = '<li class="summary-item"><span>لا يوجد فروع حالياً</span></li>';
+                return;
+            }
+
+            list.innerHTML = branchesData.map(branch => 
+                `<li class="summary-item">
+                    <div class="summary-item-left">
+                        <div class="summary-item-icon">
+                            <i class="fas fa-code-branch"></i>
+                        </div>
+                        <div class="summary-item-info">
+                            <h4>${branch.name || 'فرع'}</h4>
+                            <p>${branch.location || ''}</p>
+                        </div>
+                    </div>
+                    <span class="summary-item-value">${branch.salesCount || 0} عملية</span>
+                </li>`
+            ).join('');
+        }
+
+        // Load employees preview
+        function loadEmployeesPreview() {
+            const employeesGrid = document.getElementById('employeesPreviewGrid');
+            if (!employeesGrid) return;
+
+            const employees = window.employees || [];
+            const previewEmployees = employees.slice(0, 4);
+
+            if (previewEmployees.length === 0) {
+                employeesGrid.innerHTML = '<div style="text-align: center; padding: 40px; color: var(--text-muted);">لا يوجد موظفين</div>';
+                return;
+            }
+
+            employeesGrid.innerHTML = '';
+            previewEmployees.forEach(emp => {
+                const roleIcon = roleIcons[emp.role] || 'fa-user';
+
+                const card = document.createElement('div');
+                card.className = 'employee-preview-card';
+                card.onclick = () => window.location.href = 'pages/employees.html';
+                card.innerHTML = `
+                    <div class="employee-preview-header">
+                        <div class="preview-avatar">
+                            <i class="fas ${roleIcon}"></i>
+                        </div>
+                        <div class="preview-info">
+                            <div class="preview-name">${emp.name}</div>
+                            <div class="preview-code">${emp.number}</div>
+                            <div class="preview-role">${emp.roleLabel || emp.role}</div>
+                        </div>
+                    </div>
+                    <div class="preview-phone">
+                        <i class="fas fa-phone"></i>
+                        <span>${emp.phone || '-'}</span>
+                    </div>
+                `;
+                employeesGrid.appendChild(card);
+            });
+        }
+
+        // Setup logout
+        function setupLogout() {
+            const btnLogout = document.getElementById('btnLogout');
+            if (btnLogout) {
+                btnLogout.addEventListener('click', () => {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('refreshToken');
+                    localStorage.removeItem('userId');
+                    localStorage.removeItem('loginType');
+                    localStorage.removeItem('staffName');
+                    window.location.href = 'pages/login-branch.html';
+                });
+            }
+        }
+
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('successToast');
+            const toastMessage = document.getElementById('toastMessage');
+            if (toast && toastMessage) {
+                toastMessage.textContent = message;
+                toast.classList.add('show');
+                setTimeout(() => hideToast(), 3000);
+            }
+        }
+
+        function hideToast() {
+            const toast = document.getElementById('successToast');
+            if (toast) {
+                toast.classList.remove('show');
+            }
+        }
+
+        // Close toast on click
+        document.getElementById('toastClose')?.addEventListener('click', hideToast);
+    </script>
 </body>
 </html>
+

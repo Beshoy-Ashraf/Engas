@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المنتجات - Engas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="products-page">
+    <!-- Animated Background -->
+    <div class="products-bg">
+        <div class="bg-blob blob-1"></div>
+        <div class="bg-blob blob-2"></div>
+        <div class="bg-blob blob-3"></div>
+        <div class="bg-grid"></div>
+    </div>
+
+    <!-- Floating Theme Toggle -->
+    <div class="theme-toggle-modern" id="themeToggle" title="تبديل المظهر">
+        <div class="toggle-slider">
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun"></i>
+        </div>
+    </div>
+
+    <!-- Top Navigation -->
+    <nav class="products-nav">
+        <div class="nav-content">
+            <a href="../index.html" class="nav-brand">
+                <div class="brand-icon">
+                    <i class="fas fa-code-branch"></i>
+                </div>
+                <span class="brand-text">Engas</span>
+            </a>
+            <a href="../index.html" class="nav-back">
+                <i class="fas fa-arrow-right"></i>
+                <span>العودة للرئيسية</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="products-main">
+        <div class="products-wrapper">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="header-content">
+                    <h1><i class="fas fa-box-open"></i> المنتجات</h1>
+                    <p>جميع المنتجات المتاحة في جميع الفروع</p>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-chip">
+                        <i class="fas fa-box"></i>
+                        <span id="totalProducts">0</span>
+                        <span>منتج</span>
+                    </div>
+                    <div class="stat-chip active">
+                        <i class="fas fa-building"></i>
+                        <span id="totalBranches">0</span>
+                        <span>فرع</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Filter -->
+            <div class="category-filter">
+                <button class="category-btn active" data-category="all" onclick="filterByCategory('all')">
+                    <i class="fas fa-th"></i>
+                    <span>الكل</span>
+                </button>
+                <button class="category-btn" data-category="هواتف" onclick="filterByCategory('هواتف')">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span>هواتف</span>
+                </button>
+                <button class="category-btn" data-category="أجهزة لابتوب" onclick="filterByCategory('أجهزة لابتوب')">
+                    <i class="fas fa-laptop"></i>
+                    <span>أجهزة لابتوب</span>
+                </button>
+                <button class="category-btn" data-category="أجهزة لوحية" onclick="filterByCategory('أجهزة لوحية')">
+                    <i class="fas fa-tablet-alt"></i>
+                    <span>أجهزة لوحية</span>
+                </button>
+                <button class="category-btn" data-category="تليفزيونات" onclick="filterByCategory('تليفزيونات')">
+                    <i class="fas fa-tv"></i>
+                    <span>تليفزيونات</span>
+                </button>
+                <button class="category-btn" data-category="سماعات" onclick="filterByCategory('سماعات')">
+                    <i class="fas fa-headphones"></i>
+                    <span>سماعات</span>
+                </button>
+                <button class="category-btn" data-category="إكسسوارات" onclick="filterByCategory('إكسسوارات')">
+                    <i class="fas fa-plug"></i>
+                    <span>إكسسوارات</span>
+                </button>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-grid" id="productsGrid">
+                <!-- Will be populated by JS -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div class="toast-notification" id="successToast">
+        <div class="toast-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="toast-content">
+            <h4>تم بنجاح</h4>
+            <p id="toastMessage">تمت العملية بنجاح</p>
+        </div>
+        <button class="toast-close" id="toastClose" onclick="hideToast()">&times;</button>
+    </div>
+
+    <script src="../js/theme.js"></script>
+    <script src="../js/branches.js"></script>
+    <script src="../js/products.js"></script>
+</body>
+</html>
