@@ -8,7 +8,7 @@ menuToggle.addEventListener('click', () => {
 document.addEventListener('click', (e) => {
     if (window.innerWidth <= 1024) {
         if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
-            sidebar.classList.remove('active');
+            sidebar.classList.remove('active ');
         }
     }
 });

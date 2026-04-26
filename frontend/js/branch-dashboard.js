@@ -27,7 +27,7 @@ let nextProductId = 9;
 function formatCurrency(amount) {
     return new Intl.NumberFormat('ar-SA', {
         style: 'currency',
-        currency: 'EGP'
+        currency: 'EGP '
     }).format(amount);
 }
 

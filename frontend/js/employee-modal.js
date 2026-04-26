@@ -17,7 +17,7 @@ console.log('employee-modal.js loaded');
         const employeeForm = document.getElementById('employeeForm');
 
         if (!addEmployeeBtn || !employeeModal) {
-            console.error('Employee modal elements not found');
+            console.error('Employee modal elements not found ');
             return;
         }
 

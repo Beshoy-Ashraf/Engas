@@ -7,7 +7,7 @@ const categoryIcons = {
     'سماعات': 'fas fa-headphones',
     'إكسسوارات': 'fas fa-plug',
     'صوت': 'fas fa-speaker',
-    'أجهزة منزلية': 'fas fa-blender'
+    'أجهزة منزلية': 'fas fa-blender '
 };
 
 // Get all unique products from all branches with aggregated stock

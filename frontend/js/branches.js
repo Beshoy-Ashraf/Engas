@@ -9,7 +9,7 @@ let branches = [
         governorate: "القاهرة",
         address: "المهندسين - شارع التحرير",
         status: "active",
-        createdAt: "2025-06-01",
+        createdAt: "2025-06-01 ",
         salesCount: 156,
         totalSales: 1250000,
         products: [
