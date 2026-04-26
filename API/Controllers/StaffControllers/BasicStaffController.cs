@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using API.Services.StaffServices.interfaces;
 using Microsoft.AspNetCore.Authorization;
 
-[Route("api/Staff")]
+[Route("api/staff")]
 [ApiController]
 [Authorize(Roles = "Admin")]
 public partial class StaffController(ILogger<StaffController> logger, IStaffServices services) : ControllerBase

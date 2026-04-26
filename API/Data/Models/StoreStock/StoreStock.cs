@@ -2,7 +2,7 @@
 namespace API.Data.Models.StoreStock;
 
 
-public class StoreStock
+public class StoreStockLevel
 {
       public Guid Id { get; set; }
       public Guid StoreId { get; set; }

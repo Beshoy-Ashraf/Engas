@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-[Route("api/auth")]
+[Route("api/authentication")]
 [ApiController]
 public class AuthController : ControllerBase
 {
@@ -17,7 +17,7 @@ public class AuthController : ControllerBase
             _authService = authService;
       }
       [Authorize(Roles = "Admin")]
-      [HttpPost("register")]
+      [HttpPost("staff-register")]
       public async Task<ActionResult<TokenResponse>> Register([FromBody] UserRegistrationRequest request, CancellationToken ct)
       {
             try
@@ -35,7 +35,7 @@ public class AuthController : ControllerBase
             }
       }
 
-      [HttpPost("login")]
+      [HttpPost("staff-login")]
       public async Task<ActionResult<TokenResponse>> Login([FromBody] UserLoginRequest request, CancellationToken ct)
       {
             try
@@ -53,7 +53,7 @@ public class AuthController : ControllerBase
             }
       }
       [Authorize(Roles = "Admin")]
-      [HttpPost("store/register")]
+      [HttpPost("store-register")]
       public async Task<ActionResult<TokenResponse>> StoreRegister([FromBody] StoreRegistrationRequest request, CancellationToken ct)
       {
             try
@@ -71,7 +71,7 @@ public class AuthController : ControllerBase
             }
       }
 
-      [HttpPost("store/login")]
+      [HttpPost("store-login")]
       public async Task<ActionResult<TokenResponse>> StoreLogin([FromBody] StoreLoginRequest request, CancellationToken ct)
       {
             try
