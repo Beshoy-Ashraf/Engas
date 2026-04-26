@@ -15,4 +15,6 @@ public class Item
       public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
       public DateTime? DeletedDate { get; set; }
 
+      List<StoreStock.StoreStock> StoreStocks { get; set; } = [];
+
 }

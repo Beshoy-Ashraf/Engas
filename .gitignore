@@ -1,0 +1,38 @@
+# .NET build outputs
+bin/
+obj/
+out/
+
+# Playwright
+.playwright/
+node_modules/
+playwright-report/
+test-results/
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo
+.idea/
+
+# NuGet
+*.nupkg
+packages/
+
+# Publish
+publish/
+PublishProfiles/
+
+# Test & Coverage
+TestResults/
+coverage/
+
+# Local env files
+.env
+*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+

@@ -1,6 +1,5 @@
 using API.Contract.Item;
 
-
 namespace API.Services.ItemServices.Interface;
 
 public interface IItemInterface

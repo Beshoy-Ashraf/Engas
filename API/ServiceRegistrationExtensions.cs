@@ -1,4 +1,6 @@
 using API.Services.AuthServices;
+using API.Services.ItemServices;
+using API.Services.ItemServices.Interface;
 using API.Services.StaffServices;
 using API.Services.StaffServices.interfaces;
 using API.Services.StoreServices;
@@ -13,6 +15,7 @@ namespace Engas
                   services.AddScoped<IAuthService, AuthService>();
                   services.AddScoped<IStaffServices, StaffServices>();
                   services.AddScoped<IStoreServices, StoreServices>();
+                  services.AddScoped<IItemInterface, ItemServices>();
 
                   return services;
             }
