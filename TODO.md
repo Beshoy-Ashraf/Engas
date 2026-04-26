@@ -1,8 +1,8 @@
-# TODO - Rebuild Register Branch Page
+# Fix NullReferenceException in StoreStockService
 
-## Steps:
-1. [ ] Rebuild `frontend/pages/register-branch.html` with professional design
-2. [ ] Add comprehensive CSS for register page to `frontend/css/style.css`
-3. [ ] Update `frontend/js/register-branch.js` for new DOM/class names
-4. [ ] Test and verify responsive behavior
+# Steps
+- [x] 1. Analyze code and identify root cause
+- [x] 2. Fix `GetStoreStocks` in `StoreStockService.cs` — add `.Include(x => x.Item)`
+- [ ] 3. Fix `GetItemInAllStores` in `GetStoreStockController.cs` — fix route, call correct service, return correct variable
+- [ ] 4. Build project to verify
 

@@ -1,6 +1,7 @@
 using API.Contract.Item;
 using API.Core;
 using API.Data.Models.Item;
+using API.Data.Models.StoreStock;
 using API.Services.ItemServices.Interface;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,6 +28,8 @@ public class ItemServices(AppDBContext dbContext, ILogger<ItemServices> logger) 
       }
       public async Task<Guid> AddItem(ItemRequest NewItem, CancellationToken cancellationToken)
       {
+            var storeStock = new List<StoreStockLevel>();
+
             var item = new Item
             {
                   Model = NewItem.Model,
@@ -34,9 +37,10 @@ public class ItemServices(AppDBContext dbContext, ILogger<ItemServices> logger) 
                   Description = NewItem.Description,
                   OldPrice = NewItem.OldPrice,
                   CurrentPrice = NewItem.CurrentPrice,
+                  StoreStocks = storeStock,
                   UpdatedDate = DateTime.UtcNow
             };
-            _dbContext.Items.Update(item);
+            _dbContext.Items.Add(item);
             await _dbContext.SaveChangesAsync(cancellationToken);
             return item.Id;
       }

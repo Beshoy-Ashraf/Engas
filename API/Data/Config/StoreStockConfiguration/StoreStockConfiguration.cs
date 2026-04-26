@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace API.Data.Config.StoreStockStockConfiguration;
 
-public class StoreStockStockConfiguration : IEntityTypeConfiguration<StoreStock>
+public class StoreStockStockConfiguration : IEntityTypeConfiguration<StoreStockLevel>
 {
-      public void Configure(EntityTypeBuilder<StoreStock> builder)
+      public void Configure(EntityTypeBuilder<StoreStockLevel> builder)
       {
             builder.HasKey(s => s.Id);
             builder.HasOne(s => s.Store)
