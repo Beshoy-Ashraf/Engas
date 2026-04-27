@@ -89,12 +89,29 @@ public class StoreStockService(AppDBContext dbContext, ILogger<StoreStockService
             })];
       }
 
-      public async Task<List<ItemsInStores>> GetItemStores(Guid id, CancellationToken cancellationToken)
+      public async Task<List<ItemsInStores>> GetItemInStores(Guid id, CancellationToken cancellationToken)
       {
             var StoreStocks = await _dbContext.StoreStockLevels
             .Include(x => x.Item).
             Include(x => x.Store).
             Where(x => x.ItemId == id && x.DeletedDate == null).ToListAsync(cancellationToken: cancellationToken);
+            return [.. StoreStocks.Select(StoreStock => new ItemsInStores
+            {
+                  Id = StoreStock.Id,
+                  StoreId = StoreStock.StoreId,
+                  ItemId = StoreStock.ItemId,
+                  Quantity = StoreStock.Quantity,
+                  StoreName = StoreStock.Store.Name,
+                  ItemDescription = StoreStock.Item.Description,
+                  ItemCurrentPrice = StoreStock.Item.CurrentPrice
+            })];
+      }
+      public async Task<List<ItemsInStores>> GetStoreItems(Guid id, CancellationToken cancellationToken)
+      {
+            var StoreStocks = await _dbContext.StoreStockLevels
+            .Include(x => x.Item).
+            Include(x => x.Store).
+            Where(x => x.StoreId == id && x.DeletedDate == null).ToListAsync(cancellationToken: cancellationToken);
             return [.. StoreStocks.Select(StoreStock => new ItemsInStores
             {
                   Id = StoreStock.Id,

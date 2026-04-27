@@ -1,6 +1,7 @@
 
 
 
+using API.Data.Models.Customer;
 using API.Data.Models.Item;
 using API.Data.Models.Staff;
 using API.Data.Models.Store;
@@ -13,6 +14,7 @@ public class AppDBContext(DbContextOptions options) : DbContext(options)
       public DbSet<Staff> Staffs { get; set; }
       public DbSet<Item> Items { get; set; }
       public DbSet<StoreStockLevel> StoreStockLevels { get; set; }
+      public DbSet<Customer> Customers { get; set; }
 
       protected override void OnModelCreating(ModelBuilder modelBuilder)
       {

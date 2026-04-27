@@ -52,12 +52,28 @@ public partial class StoreStockController : ControllerBase
     {
         try
         {
-            var storeStocks = await _StoreStockService.GetItemStores(itemId, cancellationToken);
+            var storeStocks = await _StoreStockService.GetItemInStores(itemId, cancellationToken);
             return Ok(storeStocks);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, $"Error retrieving store stocks for item ID {itemId}.");
+            return StatusCode(500, ex.Message);
+        }
+    }
+    [HttpGet("store/{storeId:guid}")]
+    [Authorize]
+    public async Task<IActionResult> GetItemsInStore([FromRoute] Guid storeId,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var itemsInStore = await _StoreStockService.GetStoreItems(storeId, cancellationToken);
+            return Ok(itemsInStore);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Error retrieving items in store with ID {storeId}.");
             return StatusCode(500, ex.Message);
         }
     }
