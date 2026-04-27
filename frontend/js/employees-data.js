@@ -10,7 +10,7 @@ const employeesData = [
         role: "manager",
         roleLabel: "مدير",
         status: "active",
-        createdAt: "2025-06-01",
+        createdAt: "2025-06-01 ",
         createdBy: "النظام",
         permissions: ["all"]
     },

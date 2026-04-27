@@ -7,16 +7,16 @@ let branches = [
         phone: "02-1234-5678",
         manager: "أحمد محمود",
         governorate: "القاهرة",
-        address: "المهندسين - شارع教学设计,
+        address: "المهندسين - شارع التحرير",
         status: "active",
-        createdAt: "2025-06-01",
+        createdAt: "2025-06-01 ",
         salesCount: 156,
         totalSales: 1250000,
         products: [
-            { name: "iPhone 15 Pro", category: "هواتف", stock: 25, sold: 45 },
-            { name: "Samsung Galaxy S24", category: "هواتف", stock: 30, sold: 32 },
-            { name: "MacBook Pro 16\"", category: "أجهزة لابتوب", stock: 12, sold: 18 },
-            { name: "Dell XPS 15", category: "أجهزة لابتوب", stock: 20, sold: 15 }
+            { name: "iPhone 15 Pro", category: "هواتف", stock: 25, sold: 45, price: 45000 },
+            { name: "Samsung Galaxy S24", category: "هواتف", stock: 30, sold: 32, price: 38000 },
+            { name: "MacBook Pro 16\"", category: "أجهزة لابتوب", stock: 12, sold: 18, price: 55000 },
+            { name: "Dell XPS 15", category: "أجهزة لابتوب", stock: 20, sold: 15, price: 42000 }
         ],
         recentSales: [
             { customer: "أحمد محمد علي", items: 3, total: 84600, time: "منذ 3 ساعات" },
@@ -36,9 +36,9 @@ let branches = [
         salesCount: 98,
         totalSales: 780000,
         products: [
-            { name: "iPad Air", category: "أجهزة لوحية", stock: 18, sold: 24 },
-            { name: "Sony WH-1000XM5", category: "سماعات", stock: 22, sold: 38 },
-            { name: "Apple Watch Ultra", category: "إكسسوارات", stock: 15, sold: 22 }
+            { name: "iPad Air", category: "أجهزة لوحية", stock: 18, sold: 24, price: 18000 },
+            { name: "Sony WH-1000XM5", category: "سماعات", stock: 22, sold: 38, price: 6000 },
+            { name: "Apple Watch Ultra", category: "إكسسوارات", stock: 15, sold: 22, price: 8000 }
         ],
         recentSales: [
             { customer: "فاطمة حسن", items: 2, total: 24000, time: "منذ 5 ساعات" }
@@ -57,9 +57,9 @@ let branches = [
         salesCount: 124,
         totalSales: 980000,
         products: [
-            { name: "Samsung 65\" QLED", category: "تليفزيونات", stock: 8, sold: 12 },
-            { name: "LG OLED 55\"", category: "تليفزيونات", stock: 6, sold: 9 },
-            { name: "Home Theater System", category: "صوت", stock: 14, sold: 21 }
+            { name: "Samsung 65\" QLED", category: "تليفزيونات", stock: 8, sold: 12, price: 35000 },
+            { name: "LG OLED 55\"", category: "تليفزيونات", stock: 6, sold: 9, price: 28000 },
+            { name: "Home Theater System", category: "صوت", stock: 14, sold: 21, price: 8500 }
         ],
         recentSales: []
     },
@@ -76,9 +76,9 @@ let branches = [
         salesCount: 201,
         totalSales: 1850000,
         products: [
-            { name: "Gaming Laptop ASUS", category: "أجهزة لابتوب", stock: 10, sold: 28 },
-            { name: "Mechanical Keyboard", category: "إكسسوارات", stock: 35, sold: 52 },
-            { name: "Gaming Mouse", category: "إكسسوارات", stock: 40, sold: 65 }
+            { name: "Gaming Laptop ASUS", category: "أجهزة لابتوب", stock: 10, sold: 28, price: 25000 },
+            { name: "Mechanical Keyboard", category: "إكسسوارات", stock: 35, sold: 52, price: 800 },
+            { name: "Gaming Mouse", category: "إكسسوارات", stock: 40, sold: 65, price: 400 }
         ],
         recentSales: [
             { customer: "سارة محمود", items: 3, total: 71500, time: "منذ 4 أيام" }
@@ -112,9 +112,9 @@ let branches = [
         salesCount: 67,
         totalSales: 420000,
         products: [
-            { name: "Xiaomi Redmi Note 13", category: "هواتف", stock: 50, sold: 42 },
-            { name: "Realme GT Neo 3", category: "هواتف", stock: 35, sold: 28 },
-            { name: "شاحن لاسلكي", category: "إكسسوارات", stock: 100, sold: 85 }
+            { name: "Xiaomi Redmi Note 13", category: "هواتف", stock: 50, sold: 42, price: 8000 },
+            { name: "Realme GT Neo 3", category: "هواتف", stock: 35, sold: 28, price: 6500 },
+            { name: "شاحن لاسلكي", category: "إكسسوارات", stock: 100, sold: 85, price: 600 }
         ],
         recentSales: [
             { customer: "عمر يوسف", items: 2, total: 20000, time: "منذ 6 أيام" }
@@ -133,9 +133,9 @@ let branches = [
         salesCount: 89,
         totalSales: 670000,
         products: [
-            { name: "iPad Pro 12.9\"", category: "أجهزة لوحية", stock: 7, sold: 14 },
-            { name: "AirPods Max", category: "سماعات", stock: 10, sold: 8 },
-            { name: "Mac Mini", category: "أجهزة لابتوب", stock: 6, sold: 9 }
+            { name: "iPad Pro 12.9\"", category: "أجهزة لوحية", stock: 7, sold: 14, price: 25000 },
+            { name: "AirPods Max", category: "سماعات", stock: 10, sold: 8, price: 4500 },
+            { name: "Mac Mini", category: "أجهزة لابتوب", stock: 6, sold: 9, price: 12000 }
         ],
         recentSales: []
     },
@@ -144,7 +144,7 @@ let branches = [
         name: "فرع المنصورة",
         code: "BR-008",
         phone: "050-1234567",
-        manager: "إبراهيم阀门,
+        manager: "إبراهيم علي",
         governorate: "الدقهلية",
         address: "المنصورة - شارع الجيش",
         status: "active",
@@ -152,8 +152,8 @@ let branches = [
         salesCount: 45,
         totalSales: 310000,
         products: [
-            { name: "Samsung A54", category: "هواتف", stock: 25, sold: 31 },
-            { name: "Xiaomi Poco X6", category: "هواتف", stock: 30, sold: 25 }
+            { name: "Samsung A54", category: "هواتف", stock: 25, sold: 31, price: 9500 },
+            { name: "Xiaomi Poco X6", category: "هواتف", stock: 30, sold: 25, price: 7000 }
         ],
         recentSales: []
     }
@@ -220,10 +220,10 @@ function createBranchCard(branch) {
             <div class="branch-info">
                 <div class="branch-name">${branch.name}</div>
                 <div class="branch-code">${branch.code}</div>
-            </div>
-            <div class="branch-status ${statusClass}">
-                <i class="fas ${statusIcon}"></i>
-                ${statusText}
+                <div class="branch-status ${statusClass}">
+                    <i class="fas ${statusIcon}"></i>
+                    ${statusText}
+                </div>
             </div>
         </div>
         <div class="branch-details">
@@ -300,7 +300,6 @@ function openBranchDetailModal(branchId) {
                         ${statusText}
                     </span>
                 </div>
-            </div>
         </div>
 
         <div class="details-section">
@@ -326,7 +325,6 @@ function openBranchDetailModal(branchId) {
                     <span class="detail-label">تاريخ التسجيل</span>
                     <span class="detail-value">${formatDate(branch.createdAt)}</span>
                 </div>
-            </div>
         </div>
 
         <div class="stats-section">
@@ -339,7 +337,6 @@ function openBranchDetailModal(branchId) {
                     <div class="stat-info">
                         <div class="stat-value">${branch.salesCount}</div>
                         <div class="stat-label">عدد المبيعات</div>
-                    </div>
                 </div>
                 <div class="branch-stat-card">
                     <div class="stat-icon">
@@ -348,7 +345,6 @@ function openBranchDetailModal(branchId) {
                     <div class="stat-info">
                         <div class="stat-value">${branch.products.length}</div>
                         <div class="stat-label">المنتجات</div>
-                    </div>
                 </div>
                 <div class="branch-stat-card highlight">
                     <div class="stat-icon">
@@ -357,9 +353,7 @@ function openBranchDetailModal(branchId) {
                     <div class="stat-info">
                         <div class="stat-value">${formatCurrency(branch.totalSales)}</div>
                         <div class="stat-label">إجمالي المبيعات</div>
-                    </div>
                 </div>
-            </div>
         </div>
 
         <div class="actions-section" style="margin: 20px 0; display: flex; gap: 12px;">
@@ -390,15 +384,12 @@ function openBranchDetailModal(branchId) {
                                 <div class="product-stock">
                                     <div class="stock-bar">
                                         <div class="stock-fill" style="width: ${stockPercentage}%"></div>
-                                    </div>
                                     <span class="stock-text">المخزون: ${product.stock} | مباع: ${product.sold}</span>
                                 </div>
-                            </div>
                         </div>
                     `;
                 }).join('') : '<div class="no-products"><i class="fas fa-box-open"></i><p>لا توجد منتجات في هذا الفرع</p></div>'}
             </div>
-        </div>
 
         <div class="sales-section">
             <h3 class="section-title"><i class="fas fa-receipt"></i> آخر عمليات الشراء</h3>
@@ -411,12 +402,9 @@ function openBranchDetailModal(branchId) {
                                 <span><i class="fas fa-shopping-basket"></i> ${sale.items} منتجات</span>
                                 <span class="sale-time">${sale.time}</span>
                             </div>
-                        </div>
                         <div class="sale-amount">${formatCurrency(sale.total)}</div>
-                    </div>
                 `).join('') : '<div class="no-sales"><i class="fas fa-inbox"></i><p>لا توجد عمليات شراء حديثة</p></div>'}
             </div>
-        </div>
     `;
 
     document.getElementById('branchDetailModal').classList.add('active');

@@ -14,7 +14,7 @@ let customers = [
             { 
                 id: 1,
                 branch: "فرع المهندسين", 
-                branchCode: "BR-001",
+                branchCode: "BR-001 ",
                 items: [
                     { product: "iPhone 15 Pro", category: "هواتف", quantity: 1, price: 45000, total: 45000 },
                     { product: "Samsung Galaxy S24", category: "هواتف", quantity: 1, price: 38000, total: 38000 },
