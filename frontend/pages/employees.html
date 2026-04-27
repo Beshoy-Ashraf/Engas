@@ -12,7 +12,7 @@
 </head>
 <body class="employees-page">
     <!-- Animated Background -->
-    <div class="employees-bg ">
+    <div class="employees-bg">
         <div class="bg-blob blob-1"></div>
         <div class="bg-blob blob-2"></div>
         <div class="bg-blob blob-3"></div>
@@ -169,10 +169,10 @@
                 <div class="form-group">
                     <label class="form-label">كلمة السر *</label>
                     <div class="password-field">
-                        <input type="password" class="form-input" name="employeePassword" required placeholder="أدخل كلمة مرور قوية">
                         <button type="button" class="password-toggle" onclick="togglePasswordVisibility('addEmployeePassword')">
                             <i class="fas fa-eye"></i>
                         </button>
+                        <input type="password" class="form-input" id="addEmployeePassword" name="employeePassword" required placeholder="أدخل كلمة مرور قوية">
                     </div>
                     <div class="password-strength" id="addPasswordStrength">
                         <div class="strength-bar" id="addStrengthBar"></div>
@@ -182,10 +182,10 @@
                 <div class="form-group">
                     <label class="form-label">تأكيد كلمة السر *</label>
                     <div class="password-field">
-                        <input type="password" class="form-input" name="employeeConfirmPassword" required placeholder="أعد إدخال كلمة المرور">
                         <button type="button" class="password-toggle" onclick="togglePasswordVisibility('addEmployeeConfirmPassword')">
                             <i class="fas fa-eye"></i>
                         </button>
+                        <input type="password" class="form-input" id="addEmployeeConfirmPassword" name="employeeConfirmPassword" required placeholder="أعد إدخال كلمة المرور">
                     </div>
                     <div class="password-match" id="addPasswordMatch"></div>
                 </div>

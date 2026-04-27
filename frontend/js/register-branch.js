@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         inputs.forEach(input => {
             if (!input.value.trim()) {
-                showError(input, 'هذا  الحقل مطلوب');
+                showError(input, 'هذا الحقل مطلوب');
                 isValid = false;
             } else {
                 clearError(input);

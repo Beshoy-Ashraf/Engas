@@ -7,7 +7,7 @@ const categoryIcons = {
     'سماعات': 'fas fa-headphones',
     'إكسسوارات': 'fas fa-plug',
     'صوت': 'fas fa-speaker',
-    'أجهزة منزلية': 'fas fa-blender '
+    'أجهزة منزلية': 'fas fa-blender'
 };
 
 // Get all unique products from all branches with aggregated stock
@@ -36,7 +36,8 @@ function getAllProducts() {
                     branchName: branch.name,
                     branchCode: branch.code,
                     stock: product.stock,
-                    sold: product.sold
+                    sold: product.sold,
+                    price: product.price
                 });
                 p.totalStock += product.stock;
                 p.totalSold += product.sold;
@@ -80,6 +81,7 @@ function createProductCard(product) {
     const card = document.createElement('div');
     card.className = 'product-card';
     card.style.animation = 'card-appear 0.4s ease forwards';
+    card.onclick = () => openProductDetailModal(product);
 
     const iconClass = categoryIcons[product.category] || 'fas fa-box';
     const stockPercentage = Math.min((product.totalStock / 100) * 100, 100);
@@ -106,45 +108,84 @@ function createProductCard(product) {
             </div>
             <span class="stock-text">المخزون: ${product.totalStock} | المباع: ${product.totalSold}</span>
         </div>
-        <div class="product-branches-toggle" onclick="toggleBranchesList(this)">
-            <div class="branches-summary">
-                <i class="fas fa-building toggle-icon"></i>
-                <span>الفرع${product.branches.length > 1 ? 'وفروع' : ''}</span>
-                <i class="fas fa-chevron-down toggle-icon"></i>
-            </div>
-            <div class="branches-list" style="display: none;">
-                ${product.branches.map(branch => `
-                    <div class="branch-item">
-                        <div class="branch-header">
-                            <span class="branch-name">${branch.branchName}</span>
-                            <span class="branch-code">[${branch.branchCode}]</span>
-                        </div>
-                        <div class="branch-stats">
-                            <span class="branch-stat stock"><i class="fas fa-archive"></i> المخزون: ${branch.stock}</span>
-                            <span class="branch-stat sold"><i class="fas fa-check"></i> المباع: ${branch.sold}</span>
-                        </div>
-                    </div>
-                `).join('')}
-            </div>
-        </div>
     `;
 
     return card;
 }
 
-// Toggle branches list visibility
-window.toggleBranchesList = function(toggleElement) {
-    const branchesList = toggleElement.querySelector('.branches-list');
-    const icon = toggleElement.querySelector('.toggle-icon:last-child');
-    
-    if (branchesList.style.display === 'none' || branchesList.style.display === '') {
-        branchesList.style.display = 'block';
-        icon.classList.remove('fa-chevron-down');
-        icon.classList.add('fa-chevron-up');
-    } else {
-        branchesList.style.display = 'none';
-        icon.classList.remove('fa-chevron-up');
-        icon.classList.add('fa-chevron-down');
+// Open product detail modal
+window.openProductDetailModal = function(product) {
+    const modal = document.getElementById('productDetailModal');
+    const modalBody = document.getElementById('productDetailBody');
+
+    if (!modal || !modalBody) return;
+
+    const iconClass = categoryIcons[product.category] || 'fas fa-box';
+
+    // Generate branches table
+    const branchesTable = product.branches.map(branch => `
+        <tr>
+            <td>${branch.branchName}</td>
+            <td>${branch.branchCode}</td>
+            <td class="text-center">${branch.stock}</td>
+            <td class="text-center">${branch.sold}</td>
+            <td class="text-center">${branch.price ? formatCurrency(branch.price) : 'غير محدد'}</td>
+        </tr>
+    `).join('');
+
+    modalBody.innerHTML = `
+        <div class="product-detail-header">
+            <div class="product-detail-icon">
+                <i class="${iconClass}"></i>
+            </div>
+            <div class="product-detail-info">
+                <h2>${product.name}</h2>
+                <span class="product-detail-category">${product.category}</span>
+            </div>
+        </div>
+        <div class="product-detail-stats">
+            <div class="detail-stat">
+                <i class="fas fa-box"></i>
+                <span>إجمالي المخزون: ${product.totalStock}</span>
+            </div>
+            <div class="detail-stat">
+                <i class="fas fa-check-circle"></i>
+                <span>إجمالي المباع: ${product.totalSold}</span>
+            </div>
+            <div class="detail-stat">
+                <i class="fas fa-building"></i>
+                <span>عدد الفروع: ${product.branches.length}</span>
+            </div>
+        </div>
+        <div class="product-branches-section">
+            <h3>تفاصيل المنتج في الفروع</h3>
+            <div class="branches-table-container">
+                <table class="branches-table">
+                    <thead>
+                        <tr>
+                            <th>اسم الفرع</th>
+                            <th>كود الفرع</th>
+                            <th>المخزون</th>
+                            <th>المباع</th>
+                            <th>السعر</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${branchesTable}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+
+    modal.classList.add('active');
+};
+
+// Close product detail modal
+window.closeProductDetailModal = function() {
+    const modal = document.getElementById('productDetailModal');
+    if (modal) {
+        modal.classList.remove('active');
     }
 };
 
@@ -192,6 +233,15 @@ window.hideToast = function() {
         toast.classList.remove('show');
     }
 };
+
+// Format currency helper
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('ar-EG', {
+        style: 'currency',
+        currency: 'EGP',
+        minimumFractionDigits: 0
+    }).format(amount);
+}
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {

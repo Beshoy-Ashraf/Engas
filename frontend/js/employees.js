@@ -6,7 +6,7 @@ const roleIcons = {
     'manager': 'fa-user-tie',
     'supervisor': 'fa-user-shield',
     'sales': 'fa-user-plus',
-    'support': 'fa-headset ',
+    'support': 'fa-headset',
     'warehouse': 'fa-boxes'
 };
 
