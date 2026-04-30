@@ -11,10 +11,11 @@ public class OrderServices(AppDBContext dbContext, ILogger<OrderServices> logger
       private readonly AppDBContext _dbContext = dbContext;
       private readonly ILogger<OrderServices> _logger = logger;
 
-      public Task<Guid> CreateOrder(OrderRequest orderRequest, CancellationToken cancellationToken)
+      public async Task<Guid> CreateOrder(OrderRequest orderRequest, CancellationToken cancellationToken)
       {
             var order = new Data.Models.Order.Order
             {
+                  Id = Guid.NewGuid(),
                   CustomerId = orderRequest.CustomerId,
                   TotalAmount = orderRequest.TotalAmount,
                   StaffId = orderRequest.StaffId,
@@ -26,22 +27,27 @@ public class OrderServices(AppDBContext dbContext, ILogger<OrderServices> logger
             };
             var orderItems = orderRequest.OrderItems.Select(oi => new Data.Models.Order.OrderItem
             {
+                  Id = Guid.NewGuid(),
+                  OrderId = order.Id,
                   ItemId = oi.ItemId,
+                  StoreId = oi.StoreId,
                   ItemSerial = oi.ItemSerial,
                   IsDelivered = oi.IsDelivered,
                   PdfData = oi.PdfData,
                   PdfFileName = oi.PdfFileName,
+                  CreatedDate = DateTime.UtcNow,
+                  UpdatedDate = DateTime.UtcNow,
             }).ToList();
             order.OrderItems = orderItems;
 
-            _dbContext.Orders.Add(order);
-            _dbContext.SaveChangesAsync(cancellationToken);
-            return Task.FromResult(order.Id);
+            await _dbContext.Orders.AddAsync(order, cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return order.Id;
       }
 
-      public Task<Guid> UpdateOrder(Guid orderId, OrderRequest orderRequest, CancellationToken cancellationToken)
+      public async Task<Guid> UpdateOrder(Guid orderId, OrderRequest orderRequest, CancellationToken cancellationToken)
       {
-            var order = _dbContext.Orders.FirstOrDefault(o => o.Id == orderId) ?? throw new Exception("Order not found");
+            var order = await _dbContext.Orders.FirstOrDefaultAsync(o => o.Id == orderId) ?? throw new Exception("Order not found");
             order.CustomerId = orderRequest.CustomerId;
             order.TotalAmount = orderRequest.TotalAmount;
             order.StaffId = orderRequest.StaffId;
@@ -50,38 +56,42 @@ public class OrderServices(AppDBContext dbContext, ILogger<OrderServices> logger
             order.UpdatedDate = DateTime.UtcNow;
             var orderItems = orderRequest.OrderItems.Select(oi => new Data.Models.Order.OrderItem
             {
+                  Id = Guid.NewGuid(),
+                  OrderId = order.Id,
                   ItemId = oi.ItemId,
                   ItemSerial = oi.ItemSerial,
                   IsDelivered = oi.IsDelivered,
                   PdfData = oi.PdfData,
                   PdfFileName = oi.PdfFileName,
-
+                  CreatedDate = DateTime.UtcNow,
+                  UpdatedDate = DateTime.UtcNow,
             }).ToList();
             order.OrderItems = orderItems;
 
             _dbContext.Orders.Update(order);
-            _dbContext.SaveChangesAsync(cancellationToken);
-            return Task.FromResult(order.Id);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return order.Id;
       }
 
-      public Task DeleteOrder(Guid orderId)
+      public async Task DeleteOrder(Guid orderId)
       {
-            var order = _dbContext.Orders.FirstOrDefault(o => o.Id == orderId) ?? throw new Exception("Order not found");
-            _dbContext.Orders.Remove(order);
-            _dbContext.SaveChangesAsync();
-            return Task.CompletedTask;
+            var order = await _dbContext.Orders.FirstOrDefaultAsync(o => o.Id == orderId) ?? throw new Exception("Order not found");
+            order.DeletedDate = DateTime.UtcNow;
+            _dbContext.Orders.Update(order);
+            await _dbContext.SaveChangesAsync();
       }
 
-      public Task<OrderResponse> GetOrderById(Guid orderId)
+      public async Task<OrderResponse> GetOrderById(Guid orderId)
       {
-            var order = _dbContext.Orders
-                  .Include(o => o.OrderItems)
-                  .ThenInclude(oi => oi.Item)
-                  .Include(o => o.OrderItems)
-                  .ThenInclude(oi => oi.Store)
-                  .Include(x => x.Customer)
-
-                  .FirstOrDefault(o => o.Id == orderId && o.DeletedDate == null) ?? throw new Exception("Order not found");
+            var order = await _dbContext.Orders
+                  .Include(o => o.OrderItems.Where(oi => oi.DeletedDate == null))
+                    .ThenInclude(oi => oi.Item)
+                  .Include(o => o.OrderItems.Where(oi => oi.DeletedDate == null))
+                    .ThenInclude(oi => oi.Store)
+                  .Include(o => o.Staff)
+                  .Include(o => o.Customer)
+                  .AsSplitQuery()
+                  .FirstOrDefaultAsync(o => o.Id == orderId && o.DeletedDate == null) ?? throw new Exception("Order not found");
             var orderResponse = new OrderResponse
             {
                   Id = order.Id,
@@ -117,12 +127,22 @@ public class OrderServices(AppDBContext dbContext, ILogger<OrderServices> logger
                   }).ToList()
             };
 
-            return Task.FromResult(orderResponse);
+            return orderResponse;
       }
 
-      public Task<List<OrderResponse>> GetAllOrders()
+      public async Task<List<OrderResponse>> GetAllOrders()
       {
-            var orders = _dbContext.Orders.Where(o => o.DeletedDate == null).ToList();
+            var orders = await _dbContext.Orders
+                .Where(o => o.DeletedDate == null)
+                .Include(o => o.OrderItems.Where(oi => oi.DeletedDate == null))
+                    .ThenInclude(oi => oi.Item)
+                .Include(o => o.OrderItems.Where(oi => oi.DeletedDate == null))
+                    .ThenInclude(oi => oi.Store)
+                .Include(o => o.Staff)
+                .Include(o => o.Customer)
+                .AsSplitQuery()
+                .ToListAsync(cancellationToken: default);
+
             var orderResponses = orders.Select(order => new OrderResponse
             {
                   Id = order.Id,
@@ -159,7 +179,7 @@ public class OrderServices(AppDBContext dbContext, ILogger<OrderServices> logger
 
                         }).ToList()
             }).ToList();
-            return Task.FromResult(orderResponses);
+            return orderResponses;
       }
 
       public Task UpdateOrderItems(Guid orderId, Guid orderItemID, List<OrderItemsRequest> orderItemsRequest, CancellationToken cancellationToken)

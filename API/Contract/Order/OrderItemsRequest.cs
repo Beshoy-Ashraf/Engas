@@ -4,6 +4,8 @@ public class OrderItemsRequest
 {
       public Guid ItemId { get; set; }
       public string ItemSerial { get; set; } = "";
+      public Guid StoreId { get; set; }
+
       public bool IsDelivered { get; set; } = false;
 
       public byte[]? PdfData { get; set; }

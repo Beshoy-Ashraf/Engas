@@ -8,7 +8,13 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<AppDBContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<AppDBContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+    // Increase command timeout to 120 seconds for long-running queries
+    options.EnableSensitiveDataLogging();
+    options.EnableDetailedErrors();
+});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
