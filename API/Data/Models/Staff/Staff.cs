@@ -11,6 +11,7 @@ public class Staff
       public required string Password { get; set; }
       public string SSN { get; set; } = "";
       public UserEnum Role { get; set; } = UserEnum.Staff;
+      public List<Order.Order> Orders { get; set; } = [];
       public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
       public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
       public DateTime? DeletedDate { get; set; }

@@ -9,6 +9,7 @@ public class Customer
       public string City { get; set; } = "";
       public string Address { get; set; } = "";
       public double TotalPaidAmount { get; set; } = 0.0;
+      public List<Order.Order> Orders { get; set; } = [];
       public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
       public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
       public DateTime? DeletedDate { get; set; }

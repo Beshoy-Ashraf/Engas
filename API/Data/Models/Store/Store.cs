@@ -11,6 +11,7 @@ public class Store
       public required string Code { get; set; }
       public required string Password { get; set; }
       public List<StoreStockLevel> StoreStockLevel { get; set; } = [];
+      public List<Order.OrderItem> OrderItems { get; set; } = [];
 
       public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
       public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;

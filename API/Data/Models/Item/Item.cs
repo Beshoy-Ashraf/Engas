@@ -1,4 +1,5 @@
 using API.Core;
+using API.Data.Models.Order;
 using API.Data.Models.StoreStock;
 
 namespace API.Data.Models.Item;
@@ -16,5 +17,6 @@ public class Item
       public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
       public DateTime? DeletedDate { get; set; }
       public List<StoreStockLevel> StoreStocks { get; set; } = [];
+      public List<OrderItem> OrderItems { get; set; } = [];
 
 }
