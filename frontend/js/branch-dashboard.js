@@ -27,7 +27,7 @@ let nextProductId = 9;
 function formatCurrency(amount) {
     return new Intl.NumberFormat('ar-SA', {
         style: 'currency',
-        currency: 'EGP '
+        currency: 'EGP'
     }).format(amount);
 }
 
@@ -59,14 +59,18 @@ function renderProducts() {
 
     grid.innerHTML = products.map(p => `
         <div class="product-card" data-id="${p.id}">
+            <div class="product-image">
+                ${p.imgUrl ? `<img src="${p.imgUrl}" alt="${p.name}" onerror="this.parentNode.replaceChild(document.createElement('div'), this); this.parentNode.innerHTML='<i class=\"fas fa-image\"></i>'">` : ''}
+                <i class="fas fa-image product-icon-placeholder" style="font-size: 48px; color: var(--text-muted); opacity: 0.5; display: ${p.imgUrl ? 'none' : 'block'}"></i>
+            </div>
             <div class="product-card-header">
                 <span class="product-id">ID: ${p.id.toString().padStart(4, '0')}</span>
                 <div class="product-actions">
                     <button class="product-action-btn edit" onclick="editProduct(${p.id})" title="تعديل">
-                        <i class="fas fa-edit"></i>
+                        <i class="fas fa-pen" style="font-size: 11px;"></i>
                     </button>
                     <button class="product-action-btn delete" onclick="deleteProduct(${p.id})" title="حذف">
-                        <i class="fas fa-trash"></i>
+                        <i class="fas fa-trash-alt" style="font-size: 11px;"></i>
                     </button>
                 </div>
             </div>
@@ -100,35 +104,36 @@ function renderOrders() {
         return;
     }
 
-    list.innerHTML = orders.slice(0, 5).map(o => `
-        <div class="order-card">
-            <div class="order-header">
-                <span class="order-id">${o.id}</span>
-                <span class="order-status ${o.status}">
-                    ${getStatusText(o.status)}
-                </span>
-            </div>
-            <div class="order-products">
-                ${o.products.map(p => `
-                    <div class="order-product">
-                        <span class="order-product-info">
-                            ${p.name} - ${p.model}
-                        </span>
-                        <span class="order-product-quantity">
-                            ${p.quantity} × ${formatCurrency(products.find(pr => pr.name === p.name)?.price || 0)}
-                        </span>
-                    </div>
-                `).join('')}
-            </div>
-            <div class="order-footer">
-                <span class="order-total">${formatCurrency(o.total)}</span>
-                <span class="order-payment">
-                    <i class="fas fa-credit-card"></i>
-                    ${o.payment}
-                </span>
-            </div>
+    list.innerHTML = `
+        <div class="orders-table-container">
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>رقم الطلب</th>
+                        <th>العميل</th>
+                        <th>الفرع</th>
+                        <th>التاريخ</th>
+                        <th>الحالة</th>
+                        <th>الدفع</th>
+                        <th>الإجمالي</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${orders.slice(0, 5).map(o => `
+                        <tr>
+                            <td><strong>${o.id}</strong></td>
+                            <td>عميل ${o.id.slice(-3)}</td>
+                            <td>العامرية</td>
+                            <td>${o.date}</td>
+                            <td><span class="status-badge ${o.status}">${getStatusText(o.status)}</span></td>
+                            <td>${o.payment}</td>
+                            <td class="order-total">${formatCurrency(o.total)}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
         </div>
-    `).join('');
+    `;
 }
 
 function getStatusText(status) {
@@ -148,8 +153,10 @@ function openModal() {
     document.getElementById('productId').value = '';
     
     // Reset placeholder text for add mode
-    document.getElementById('productName').placeholder = 'مثال: هاتف iPhone 15 Pro Max';
-    document.getElementById('productModel').placeholder = 'مثال: 512GB - أسود';
+    const nameInput = document.getElementById('productName');
+    const modelInput = document.getElementById('productModel');
+    if (nameInput) nameInput.placeholder = 'مثال: هاتف iPhone 15 Pro Max';
+    if (modelInput) modelInput.placeholder = 'مثال: 512GB - أسود';
 }
 
 function closeModal() {
@@ -163,13 +170,16 @@ function editProduct(id) {
     document.getElementById('modalTitle').textContent = 'تعديل المنتج';
     document.getElementById('productId').value = product.id;
     document.getElementById('productName').value = product.name;
-    document.getElementById('productModel').value = product.model;
-    document.getElementById('productQuantity').value = product.quantity;
+    const modelInput = document.getElementById('productModel');
+    if (modelInput) modelInput.value = product.model;
+    const qtyInput = document.getElementById('productQuantity');
+    if (qtyInput) qtyInput.value = product.quantity;
     document.getElementById('productPrice').value = product.price;
     
     // Set placeholder text for edit mode
-    document.getElementById('productName').placeholder = 'اسم المنتج';
-    document.getElementById('productModel').placeholder = 'موديل المنتج';
+    const nameInput = document.getElementById('productName');
+    if (nameInput) nameInput.placeholder = 'اسم المنتج';
+    if (modelInput) modelInput.placeholder = 'موديل المنتج';
     
     // Open modal directly without calling openModal() to avoid resetting to add mode
     document.getElementById('productModal').classList.add('active');
@@ -299,18 +309,22 @@ document.addEventListener('DOMContentLoaded', function() {
         filterSelect.addEventListener('change', filterProducts);
     }
 
-    // Add product button
-    document.getElementById('addProductBtn').addEventListener('click', openModal);
+    // Add product button (safe attach)
+    const addBtn = document.getElementById('addProductBtn');
+    if (addBtn) addBtn.addEventListener('click', openModal);
 
-    // Close modal events
-    document.getElementById('modalClose').addEventListener('click', closeModal);
-    document.getElementById('cancelBtn').addEventListener('click', closeModal);
-    document.getElementById('productModal').addEventListener('click', function(e) {
+    // Close modal events (safe attach)
+    const modalCloseEl = document.getElementById('modalClose');
+    const cancelBtnEl = document.getElementById('cancelBtn');
+    const productModalEl = document.getElementById('productModal');
+    const productFormEl = document.getElementById('productForm');
+    
+    if (modalCloseEl) modalCloseEl.addEventListener('click', closeModal);
+    if (cancelBtnEl) cancelBtnEl.addEventListener('click', closeModal);
+    if (productModalEl) productModalEl.addEventListener('click', function(e) {
         if (e.target === this) closeModal();
     });
-
-    // Save product form
-    document.getElementById('productForm').addEventListener('submit', saveProduct);
+    if (productFormEl) productFormEl.addEventListener('submit', saveProduct);
 
     // Close modal on Escape key
     document.addEventListener('keydown', function(e) {
