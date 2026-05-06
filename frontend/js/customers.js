@@ -210,6 +210,9 @@ function createCustomerCard(customer) {
 
     const initials = customer.name.split(' ').map(n => n[0]).join('').substring(0, 2);
 
+    const fileIcon = customer.fileInfo ? '<i class="fas fa-file-alt" style="color: #4CAF50;"></i>' : '';
+    const fileText = customer.fileInfo ? `ملف مرفق (${customer.fileInfo.name})` : '';
+    
     card.innerHTML = `
         <div class="customer-card-header">
             <div class="customer-avatar">${initials}</div>
@@ -239,6 +242,10 @@ function createCustomerCard(customer) {
                 <i class="fas fa-map-marker-alt"></i>
                 <span>${customer.governorate} - ${customer.address}</span>
             </div>
+            ${fileIcon ? `<div class="detail-row file-info">
+                <i class="fas fa-paperclip"></i>
+                <span>${fileText}</span>
+            </div>` : ''}
         </div>
         <div class="customer-meta">
             <div class="meta-item">
@@ -267,6 +274,19 @@ function openCustomerModal(customerId) {
                        customer.status === 'inactive' ? 'status-inactive' : 'status-pending';
     const statusText = customer.status === 'active' ? 'نشط' :
                       customer.status === 'inactive' ? 'غير نشط' : 'معلق';
+
+    const fileSection = customer.fileInfo ? `
+                <div class="detail-item file-detail">
+                    <span class="detail-label">الملف المرفوع</span>
+                    <div class="file-preview-container" style="display: flex; align-items: center; gap: 12px; padding: 8px; background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--glass-border);">
+                        <i class="fas fa-paperclip" style="color: var(--primary); font-size: 16px;"></i>
+                        <div>
+                            <div style="font-weight: 600; color: var(--text-primary); font-size: 14px;">${customer.fileInfo.name}</div>
+                            <div style="font-size: 12px; color: var(--text-muted);">${customer.fileInfo.size} - ${customer.fileInfo.type}</div>
+                        </div>
+                    </div>
+                </div>
+            ` : '';
 
     modalBody.innerHTML = `
         <div class="customer-profile">
@@ -306,6 +326,7 @@ function openCustomerModal(customerId) {
                     <span class="detail-label">تاريخ التسجيل</span>
                     <span class="detail-value">${formatDate(customer.createdAt)}</span>
                 </div>
+                ${fileSection}
             </div>
         </div>
 
@@ -441,6 +462,22 @@ document.getElementById('editCustomerForm').addEventListener('submit', function(
     customer.address = e.target.customerAddress.value;
     customer.status = e.target.customerStatus.value;
 
+    // Handle file upload if new file selected
+    const fileInput = e.target.querySelector('#customerFileEdit');
+    if (fileInput.files[0]) {
+        const file = fileInput.files[0];
+        if (file.size <= 5 * 1024 * 1024) {
+            customer.fileInfo = {
+                name: file.name,
+                size: (file.size / 1024).toFixed(1) + ' KB',
+                type: file.type.startsWith('image/') ? 'صورة' : 'PDF'
+            };
+        } else {
+            showToast('حجم الملف كبير جداً. الحد الأقصى 5MB');
+            return;
+        }
+    }
+
     closeEditModal();
     loadCustomers();
     showToast('تم تحديث بيانات العميل بنجاح');
@@ -502,11 +539,48 @@ function updateStats() {
     document.getElementById('activeCount').textContent = customers.filter(c => c.status === 'active').length;
 }
 
+// File preview function
+function previewFile(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+        showToast('حجم الملف كبير جداً. الحد الأقصى 5MB');
+        input.value = '';
+        return;
+    }
+
+    const label = input.closest('.file-upload-wrapper').querySelector('.file-upload-label');
+    const fileNameEl = input.closest('.file-upload-wrapper').querySelector('.file-name');
+    const preview = input.closest('.file-upload-group').querySelector('.file-preview');
+
+    fileNameEl.textContent = file.name;
+    label.classList.add('has-file');
+
+    if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = input.closest('.file-upload-group').querySelector('#previewImg') || 
+                       input.closest('.file-upload-group').querySelector('img');
+            if (img) {
+                img.src = e.target.result;
+                preview.classList.add('show');
+            }
+        };
+        reader.readAsDataURL(file);
+    } else {
+        preview.classList.add('show');
+        const infoEl = preview.querySelector('#previewInfo') || preview.querySelector('div');
+        infoEl.innerHTML = `<i class="fas fa-file-pdf" style="color: #e74c3c;"></i> PDF (${(file.size / 1024).toFixed(1)} KB)`;
+    }
+}
+
 // Add new customer
 document.getElementById('addCustomerForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
     const formData = new FormData(e.target);
+    const fileInput = e.target.querySelector('#customerFile');
     const newCustomer = {
         id: customers.length > 0 ? Math.max(...customers.map(c => c.id)) + 1 : 1,
         name: formData.get('customerName'),
@@ -519,6 +593,16 @@ document.getElementById('addCustomerForm').addEventListener('submit', function(e
         createdAt: new Date().toISOString().split('T')[0],
         purchases: []
     };
+
+    // Handle file upload
+    if (fileInput.files[0]) {
+        const file = fileInput.files[0];
+        newCustomer.fileInfo = {
+            name: file.name,
+            size: (file.size / 1024).toFixed(1) + ' KB',
+            type: file.type.startsWith('image/') ? 'صورة' : 'PDF'
+        };
+    }
 
     customers.unshift(newCustomer);
     updateStats();

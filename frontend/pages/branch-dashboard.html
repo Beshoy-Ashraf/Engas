@@ -9,588 +9,963 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
-    <style>
-        /* Branch Dashboard Specific Styles */
+        <style>
+        /* ========================================
+           Branch Dashboard - Professional Styling
+           Responsive Design for All Screens
+           ======================================== */
+
+        /* Base Layout Components */
+        .sidebar {
+            position: fixed;
+            right: 0;
+            top: 0;
+            height: 100vh;
+            width: 280px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .main-content {
+            margin-right: 280px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            transition: margin-right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        /* Navigation Styles */
+        .nav-menu {
+            flex: 1;
+            padding: 24px 16px;
+        }
+
+        /* Fix Light Theme Nav Visibility */
+        [data-theme="light"] .nav-link {
+            color: var(--text-primary) !important;
+        }
+
+        [data-theme="light"] .nav-link span {
+            color: var(--text-primary) !important;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            margin-bottom: 6px;
+            border-radius: 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            background: rgba(var(--primary-rgb), 0.1);
+            color: var(--primary);
+            transform: translateX(-8px);
+            box-shadow: 0 8px 24px rgba(var(--primary-rgb), 0.15);
+        }
+
+        .nav-link.active {
+            background: rgba(var(--primary-rgb), 0.15);
+            color: var(--primary);
+            box-shadow: inset 0 0 0 1px rgba(var(--primary-rgb), 0.3);
+        }
+
+        .nav-link i {
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .logout-btn {
+            margin-top: auto;
+            margin-bottom: 16px;
+            color: var(--error) !important;
+            border: 1px solid rgba(var(--error-rgb), 0.3);
+        }
+
+        .logout-btn:hover {
+            background: rgba(var(--error-rgb), 0.1);
+            color: var(--error) !important;
+            box-shadow: 0 8px 24px rgba(var(--error-rgb), 0.2);
+        }
+
+        /* Section Components */
+        .section {
+            padding: 20px;
+            animation: slideInFromRight 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .section-header {
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 8px 0;
+        }
+
+        /* Branch Header */
         .branch-header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .branch-header-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .branch-header-item {
+            text-align: center;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .branch-header-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .branch-header-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .branch-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .branch-status.active {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .branch-status i {
+            font-size: 12px;
+        }
+
+        /* Stats and Summary Grids */
+        .stats-grid, .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card, .summary-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before, .summary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .stat-card:hover::before, .summary-card:hover::before {
+            left: 100%;
+        }
+
+        .stat-card:hover, .summary-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(var(--primary-rgb), 0.4);
+            box-shadow: 0 16px 48px rgba(var(--primary-rgb), 0.2);
+        }
+
+        .stat-icon {
+            font-size: 22px;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .stat-info h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 6px 0;
+        }
+
+        .stat-info p {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .summary-icon {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .summary-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .summary-card p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Products Section */
+        .products-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 16px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .products-controls .form-input {
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .products-controls .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.1);
+        }
+
+        .products-controls select {
+            width: 140px;
+        }
+
+        .products-controls .btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .products-controls .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        /* Product Cards */
+        .product-card {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
             border-radius: 16px;
             padding: 24px;
-            margin-bottom: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
         }
-        
-        .branch-header-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(var(--primary-rgb), 0.3);
+            box-shadow: 0 16px 48px rgba(var(--primary-rgb), 0.15);
         }
-        
-        .branch-header-item {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        
-        .branch-header-label {
-            font-size: 12px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .branch-header-value {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        
-        .branch-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 500;
-        }
-        
-        .branch-status.active {
-            background: rgba(93, 214, 44, 0.15);
-            color: #5DD62C;
-        }
-        
-        .branch-status.inactive {
-            background: rgba(255, 74, 74, 0.15);
-            color: #FF4A4A;
-        }
-        
-        .branch-status.pending {
-            background: rgba(242, 201, 76, 0.15);
-            color: #F2C94C;
-        }
-        
-        .section-header {
+
+        .product-card-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--glass-border);
         }
-        
-        .section-title {
-            font-size: 18px;
+
+        .product-id {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-family: 'Courier New', monospace;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 8px;
+            border-radius: 6px;
             font-weight: 600;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 4px;
+        }
+
+        .product-action-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            border: 1px solid var(--glass-border);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+
+        .product-action-btn i {
+            font-size: 11px !important;
+        }
+
+        .product-action-btn:hover {
+            transform: translateY(-1px) scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .product-action-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .product-action-btn.edit:hover {
+            background: rgba(var(--primary-rgb), 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .product-action-btn.delete:hover {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .product-model {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        .product-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .product-image {
+            height: 120px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-icon-placeholder {
+            color: var(--text-muted);
+            font-size: 32px;
+            opacity: 0.5;
+        }
+
+        .product-icon-placeholder i {
+            font-size: 32px;
+        }
+
+        .product-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .product-stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .product-stat-value {
+            font-size: 16px;
+            font-weight: 700;
             color: var(--text-primary);
         }
-        
-        /* Product Form Modal */
+
+        .product-stat-value.price {
+            color: var(--accent);
+        }
+
+        /* Orders Table - Recent Orders */
+        .orders-table-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .orders-table th {
+            background: rgba(255,255,255,0.05);
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: 16px 12px;
+            text-align: right;
+            border-bottom: 2px solid var(--glass-border);
+        }
+
+        .orders-table td {
+            padding: 16px 12px;
+            border-bottom: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+        }
+
+        .orders-table tr:hover {
+            background: rgba(255,255,255,0.03);
+        }
+
+        .orders-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.completed {
+            background: rgba(34,197,94,0.2);
+            color: #22c55e;
+        }
+
+        .status-badge.pending {
+            background: rgba(245,158,11,0.2);
+            color: #f59e0b;
+        }
+
+        .status-badge.cancelled {
+            background: rgba(239,68,68,0.2);
+            color: #ef4444;
+        }
+
+        .order-total {
+            font-weight: 700;
+            color: var(--accent) !important;
+            font-size: 15px;
+        }
+
+        /* Responsive Table */
+        @media (max-width: 768px) {
+            .orders-table {
+                font-size: 13px;
+            }
+            .orders-table th, .orders-table td {
+                padding: 12px 8px;
+            }
+        }
+
+        /* Placeholder Sections */
+        .section .section-header + div {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .section .section-header + div i {
+            font-size: 48px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            opacity: 0.6;
+        }
+
+        .section .section-header + div h2 {
+            font-size: 20px;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .section .section-header + div p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .stats-grid, .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .branch-header-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(100%);
+            }
+
+            .main-content {
+                margin-right: 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .stats-grid, .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .branch-header {
+                padding: 20px;
+            }
+
+            .section {
+                padding: 16px;
+            }
+
+            .page-title {
+                font-size: 22px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .products-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                min-width: auto;
+            }
+
+            .products-controls select {
+                width: 100%;
+            }
+
+            .products-controls .btn {
+                justify-content: center;
+            }
+
+            .branch-header-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid, .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top-bar {
+                padding: 10px 12px;
+            }
+
+            .page-title {
+                font-size: 18px;
+            }
+
+            .branch-header {
+                padding: 12px;
+                margin-bottom: 16px;
+            }
+
+            .stat-card, .summary-card {
+                padding: 16px;
+            }
+
+            .section {
+                padding: 12px;
+            }
+
+            .products-controls {
+                padding: 12px;
+            }
+        }
+
+        /* Accessibility */
+        .nav-link:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .btn:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* Dark mode adjustments */
+        @media (prefers-color-scheme: dark) {
+            .branch-header-item {
+                background: rgba(0, 0, 0, 0.1);
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        /* Success Toast */
+        .success-toast {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #22c55e;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* Modal Styles */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            z-index: 10000;
+            background: rgba(0, 0, 0, 0.5);
             display: none;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            z-index: 1001;
         }
-        
+
         .modal-overlay.active {
-            display: flex;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
         }
-        
+
         .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
             border-radius: 16px;
-            padding: 28px;
-            width: 100%;
+            padding: 0;
             max-width: 500px;
+            width: 90%;
             max-height: 90vh;
             overflow-y: auto;
             animation: modalSlideIn 0.3s ease;
         }
-        
+
         @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
-        
+
         .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--glass-border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--glass-border);
         }
-        
+
         .modal-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 600;
             color: var(--text-primary);
+            margin: 0;
         }
-        
+
         .modal-close {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            width: 36px;
-            height: 36px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: none;
+            border: none;
+            font-size: 18px;
             color: var(--text-secondary);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
             transition: all 0.2s ease;
         }
-        
+
         .modal-close:hover {
-            border-color: var(--primary);
-            color: var(--primary);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
         }
-        
+
+        .modal-body {
+            padding: 24px;
+        }
+
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
-        
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-row .form-group {
+            margin-bottom: 0;
+        }
+
         .form-label {
             display: block;
             font-size: 14px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
         }
-        
+
         .form-input {
             width: 100%;
-            background: var(--bg-primary);
-            border: 1px solid var(--glass-border);
-            border-radius: 10px;
             padding: 12px 16px;
-            font-size: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.1);
             color: var(--text-primary);
-            font-family: inherit;
-            transition: all 0.2s ease;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
         }
-        
+
         .form-input:focus {
             outline: none;
             border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.1);
         }
-        
+
         .form-input::placeholder {
             color: var(--text-muted);
         }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-        
+
         .modal-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 24px;
-        }
-        
-        .btn {
-            flex: 1;
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 500;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-        
-        .btn-primary {
-            background: var(--primary);
-            border: 1px solid var(--primary);
-            color: var(--text-primary);
-        }
-        
-        .btn-primary:hover {
-            background: var(--primary-light);
-            border-color: var(--primary-light);
-        }
-        
-        .btn-secondary {
-            background: transparent;
-            border: 1px solid var(--glass-border);
-            color: var(--text-secondary);
-        }
-        
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-        
-        /* Products Grid */
-        .products-controls {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        
-        .search-box {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-        
-        .search-box i {
-            position: absolute;
-            left: 12px;
-            color: var(--text-muted);
-            z-index: 1;
-        }
-        
-        .search-box input {
-            padding-left: 36px !important;
-        }
-        
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        
-        .product-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .product-card:hover {
-            transform: translateY(-3px);
-            border-color: rgba(58, 124, 165, 0.3);
-        }
-        
-        .product-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 16px;
-        }
-        
-        .product-id {
-            font-size: 11px;
-            color: var(--text-muted);
-            background: var(--stat-bg);
-            padding: 4px 10px;
-            border-radius: 6px;
-        }
-        
-        .product-actions {
-            display: flex;
-            gap: 6px;
-        }
-        
-        .product-action-btn {
-            background: transparent;
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            transition: all 0.2s ease;
-        }
-        
-        .product-action-btn:hover {
-            color: var(--text-primary);
-        }
-        
-        .product-action-btn.edit:hover {
-            background: rgba(242, 201, 76, 0.15);
-            color: #F2C94C;
-        }
-        
-        .product-action-btn.delete:hover {
-            background: rgba(255, 74, 74, 0.15);
-            color: #FF4A4A;
-        }
-        
-        .product-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-        }
-        
-        .product-model {
-            font-size: 13px;
-            color: var(--primary);
-            margin-bottom: 16px;
-        }
-        
-        .product-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            padding-top: 16px;
+            padding: 20px 24px;
             border-top: 1px solid var(--glass-border);
-        }
-        
-        .product-stat {
-            text-align: center;
-        }
-        
-        .product-stat-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-        }
-        
-        .product-stat-value {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        
-        .product-stat-value.price {
-            color: var(--primary);
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 48px 24px;
-            background: var(--glass-bg);
-            border: 1px dashed var(--glass-border);
-            border-radius: 16px;
-        }
-        
-        .empty-state i {
-            font-size: 48px;
-            color: var(--text-muted);
-            margin-bottom: 16px;
-        }
-        
-        .empty-state h3 {
-            font-size: 16px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-        }
-        
-        .empty-state p {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-        
-        /* Recent Orders */
-        .orders-list {
             display: flex;
-            flex-direction: column;
+            justify-content: flex-end;
             gap: 12px;
         }
-        
-        .order-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 16px;
-            transition: all 0.3s ease;
-        }
-        
-        .order-card:hover {
-            border-color: rgba(58, 124, 165, 0.3);
-        }
-        
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        
-        .order-id {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-        
-        .order-status {
-            font-size: 12px;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-weight: 500;
-        }
-        
-        .order-status.completed {
-            background: rgba(93, 214, 44, 0.15);
-            color: #5DD62C;
-        }
-        
-        .order-status.pending {
-            background: rgba(242, 201, 76, 0.15);
-            color: #F2C94C;
-        }
-        
-        .order-status.cancelled {
-            background: rgba(255, 74, 74, 0.15);
-            color: #FF4A4A;
-        }
-        
-        .order-products {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-        
-        .order-product {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-        }
-        
-        .order-product-info {
-            color: var(--text-secondary);
-        }
-        
-        .order-product-quantity {
-            color: var(--text-muted);
-        }
-        
-        .order-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 12px;
-            border-top: 1px solid var(--glass-border);
-        }
-        
-        .order-total {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--primary);
-        }
-        
-        .order-payment {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-        
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
+
+        /* Print styles */
+        @media print {
+            .sidebar, .top-bar, .menu-toggle {
+                display: none !important;
+            }
+
+            .main-content {
+                margin-right: 0 !important;
+            }
+
+            .section {
+                page-break-inside: avoid;
             }
         }
+        </style>
         
-        @media (max-width: 768px) {
-            .branch-header-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .section-header {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .products-controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .search-box input {
-                width: 100% !important;
-            }
-            
-            #filterSelect {
-                width: 100% !important;
-            }
-            
-            #addProductBtn {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-    </style>
+       
+    
 </head>
 <body>
     <nav class="sidebar" id="sidebar">
         <div class="site-logo">
             <img src="../img/logo.png" alt="Engas Logo">
         </div>
-        <ul class="nav-menu">
-            <!-- <li class="nav-item">
-                <a href="../index.html" class="nav-link">
-                    <i class="fas fa-home"></i>
-                    <span>الرئيسية</span>
-                </a>
-            </li> -->
+<ul class="nav-menu">
             <li class="nav-item">
-                <a href="branch-dashboard.html" class="nav-link active">
-                    <i class="fas fa-store"></i>
-                    <span>لوحة الفرع</span>
+                <a href="#" data-section="dashboard" class="nav-link active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>لوحة التحكم</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="#" data-section="products" class="nav-link">
                     <i class="fas fa-box"></i>
-                    <span>الأصناف</span>
+                    <span>المنتاجات</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="#" data-section="orders" class="nav-link">
                     <i class="fas fa-shopping-cart"></i>
                     <span>الطلبات</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="#" data-section="reports" class="nav-link">
                     <i class="fas fa-chart-bar"></i>
                     <span>التقارير</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="#" data-section="settings" class="nav-link">
                     <i class="fas fa-cog"></i>
                     <span>الإعدادات</span>
                 </a>
             </li>
         </ul>
+        <div class="sidebar-footer">
+            <a href="../pages/login-branch.html" class="nav-link logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>تسجيل الخروج</span>
+            </a>
+        </div>
     </nav>
 
     <main class="main-content" id="mainContent">
@@ -598,7 +973,7 @@
             <button class="menu-toggle" id="menuToggle">
                 <i class="fas fa-bars"></i>
             </button>
-            <h1 class="page-title">لوحة تحكم الفرع</h1>
+        <h1 class="page-title" id="pageTitle">لوحة التحكم</h1>
             <div class="theme-toggle-modern" id="themeToggle" title="تبديل المظهر">
                 <div class="toggle-slider">
                     <i class="fas fa-moon"></i>
@@ -607,107 +982,184 @@
             </div>
         </div>
 
-        <!-- Branch Info Section -->
-        <div class="branch-header">
-            <div class="branch-header-grid">
-                <div class="branch-header-item">
-                    <span class="branch-header-label">اسم الفرع</span>
-                    <span class="branch-header-value" id="branchName">العامرية كوبرى</span>
-                </div>
-                <div class="branch-header-item">
-                    <span class="branch-header-label">كود الفرع</span>
-                    <span class="branch-header-value">7006</span>
-                </div>
-                <div class="branch-header-item">
-                    <span class="branch-header-label">الحالة</span>
-                    <span class="branch-status active">
-                        <i class="fas fa-circle"></i>
-                        نشط
-                    </span>
-                </div>
-                <div class="branch-header-item">
-                    <span class="branch-header-label">مدير الفرع</span>
-                    <span class="branch-header-value">أحمد محمد</span>
+        <div id="dashboard-section" class="section">
+            <!-- Branch Info Section -->
+            <div class="branch-header">
+                <div class="branch-header-grid">
+                    <div class="branch-header-item">
+                        <span class="branch-header-label">اسم الفرع</span>
+                        <span class="branch-header-value" id="branchName">العامرية كوبرى</span>
+                    </div>
+                    <div class="branch-header-item">
+                        <span class="branch-header-label">كود الفرع</span>
+                        <span class="branch-header-value">7006</span>
+                    </div>
+                    <div class="branch-header-item">
+                        <span class="branch-header-label">الحالة</span>
+                        <span class="branch-status active">
+                            <i class="fas fa-circle"></i>
+                            نشط
+                        </span>
+                    </div>
+                    <div class="branch-header-item">
+                        <span class="branch-header-label">مدير الفرع</span>
+                        <span class="branch-header-value">أحمد محمد علي</span>
+                    </div>
                 </div>
             </div>
+
+            <!-- Stats Cards - 4 cols desktop, 2 mobile -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-boxes-stacked"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalProducts">245</h3>
+                        <p>إجمالي الأصناف</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-tag"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalProductsValue">2,450,000 ج.م</h3>
+                        <p>قيمة المخزون</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="todayOrders">18</h3>
+                        <p>الطلبات اليوم</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="monthOrders">247</h3>
+                        <p>الطلبات الشهر</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Products Summary -->
+            <section class="summary-section">
+                <h2 class="section-title">ملخص الأصناف</h2>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <i class="fas fa-mobile-alt summary-icon"></i>
+                        <div>
+                            <h4>هواتف ذكية</h4>
+                            <p><strong>89</strong> صنف | <strong>1,850</strong> قطعة</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <i class="fas fa-tv summary-icon"></i>
+                        <div>
+                            <h4>شاشات وتلفزيونات</h4>
+                            <p><strong>34</strong> صنف | <strong>156</strong> قطعة</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <i class="fas fa-plug summary-icon"></i>
+                        <div>
+                            <h4>إكسسوارات</h4>
+                            <p><strong>67</strong> صنف | <strong>1,234</strong> قطعة</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <i class="fas fa-headphones summary-icon"></i>
+                        <div>
+                            <h4>سماعات وصوتيات</h4>
+                            <p><strong>22</strong> صنف | <strong>89</strong> قطعة</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Orders Summary -->
+            <section class="recent-orders-section">
+                <div class="section-header">
+                    <h2 class="section-title">أحدث الطلبات</h2>
+                </div>
+                <div class="orders-list" id="ordersList">
+                    <!-- Orders rendered by JS -->
+                </div>
+            </section>
         </div>
 
-        <!-- Stats Cards -->
-        <section class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-box"></i>
-                </div>
-                <div class="stat-info">
-                    <h3 id="totalProducts">0</h3>
-                    <p>إجمالي الأصناف</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-tag"></i>
-                </div>
-                <div class="stat-info">
-                    <h3 id="totalProductsValue">0</h3>
-                    <p>إجمالي قيمة الأصناف</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
-                <div class="stat-info">
-                    <h3 id="todayOrders">0</h3>
-                    <p>الطلبات اليوم</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-calendar-alt"></i>
-                </div>
-                <div class="stat-info">
-                    <h3 id="monthOrders">0</h3>
-                    <p>الطلبات الشهر</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Products Section -->
-        <section class="products-section">
+        <!-- Products Section (hidden initially) -->
+        <div id="products-section" class="section" style="display: none;">
             <div class="section-header">
-                <h2 class="section-title">الأصناف</h2>
+                <h2 class="section-title">إدارة المنتاجات</h2>
                 <div class="products-controls">
                     <div class="search-box">
                         <i class="fas fa-search"></i>
-                        <input type="text" class="form-input" id="searchInput" placeholder="ابحث في الأجهزة والمنتجات..." style="padding-left: 36px; width: 200px;">
+                        <input type="text" class="form-input" id="productsSearch" placeholder="ابحث بالاسم أو الموديل..." style="padding-left: 36px; flex: 1; min-width: 250px;">
                     </div>
-                    <select class="form-input" id="filterSelect" style="width: 150px;">
+                    <select class="form-input" id="productsFilter" style="width: 160px;">
                         <option value="all">جميع الأصناف</option>
                         <option value="phones">هواتف</option>
                         <option value="screens">شاشات</option>
                         <option value="accessories">إكسسوارات</option>
-                        <option value="chargers">شواحن وكابلات</option>
+                        <option value="audio">صوتيات</option>
                     </select>
-                    <button class="btn btn-primary" id="addProductBtn">
+                    <button class="btn" id="addProductBtn" style="background: #22c55e; color: white; border: 1px solid #22c55e;">
                         <i class="fas fa-plus"></i>
                         إضافة منتج
+                    </button>
+                    <button class="btn btn-secondary" id="smartTechBtn">
+                        <i class="fas fa-bolt"></i>
+                        من Smart Tech
                     </button>
                 </div>
             </div>
             <div class="products-grid" id="productsGrid">
-                <!-- Products will be rendered here -->
+                <!-- Products rendered by JS -->
             </div>
-        </section>
+        </div>
 
-        <!-- Recent Orders Section -->
-        <section class="orders-section" style="margin-top: 30px;">
+        <!-- Orders Section (hidden initially) -->
+        <div id="orders-section" class="section" style="display: none;">
             <div class="section-header">
-                <h2 class="section-title">أحدث الطلبات</h2>
+                <h2 class="section-title">الطلبات</h2>
             </div>
-            <div class="orders-list" id="ordersList">
-                <!-- Orders will be rendered here -->
+            <div style="text-align: center; padding: 60px 20px; color: var(--text-muted);">
+                <i class="fas fa-tools" style="font-size: 64px; margin-bottom: 24px; opacity: 0.5;"></i>
+                <h2 style="font-size: 24px; margin-bottom: 12px;">قيد التطوير</h2>
+                <p>هذا القسم قيد التطوير و سيتم إضافة محتواه قريباً</p>
             </div>
-        </section>
+        </div>
+
+        <!-- Reports Section (hidden initially) -->
+        <div id="reports-section" class="section" style="display: none;">
+            <div class="section-header">
+                <h2 class="section-title">التقارير</h2>
+            </div>
+            <div style="text-align: center; padding: 60px 20px; color: var(--text-muted);">
+                <i class="fas fa-tools" style="font-size: 64px; margin-bottom: 24px; opacity: 0.5;"></i>
+                <h2 style="font-size: 24px; margin-bottom: 12px;">قيد التطوير</h2>
+                <p>هذا القسم قيد التطوير و سيتم إضافة محتواه قريباً</p>
+            </div>
+        </div>
+
+        <!-- Settings Section (hidden initially) -->
+        <div id="settings-section" class="section" style="display: none;">
+            <div class="section-header">
+                <h2 class="section-title">الإعدادات</h2>
+            </div>
+            <div style="text-align: center; padding: 60px 20px; color: var(--text-muted);">
+                <i class="fas fa-tools" style="font-size: 64px; margin-bottom: 24px; opacity: 0.5;"></i>
+                <h2 style="font-size: 24px; margin-bottom: 12px;">قيد التطوير</h2>
+                <p>هذا القسم قيد التطوير و سيتم إضافة محتواه قريباً</p>
+            </div>
+        </div>
     </main>
 
     <!-- Add/Edit Product Modal -->
@@ -720,23 +1172,40 @@
                 </button>
             </div>
             <form id="productForm">
-                <input type="hidden" id="productId" value="">
-                <div class="form-group">
-                    <label class="form-label">اسم المنتج *</label>
-                    <input type="text" class="form-input" id="productName" placeholder="مثال: هاتف iPhone 15 Pro Max" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">الموديل</label>
-                    <input type="text" class="form-input" id="productModel" placeholder="مثال: 512GB - أسود">
-                </div>
-                <div class="form-row">
+                <div class="modal-body">
                     <div class="form-group">
-                        <label class="form-label">الكمية</label>
-                        <input type="number" class="form-input" id="productQuantity" placeholder="0" min="0" required>
+                        <label class="form-label">المعرف (ID) *</label>
+                        <input type="number" class="form-input" id="productId" placeholder="رقم المعرف" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">السعر (ج.م)</label>
-                        <input type="number" class="form-input" id="productPrice" placeholder="0.00" min="0" step="0.01" required>
+                        <label class="form-label">الفئة *</label>
+                        <select class="form-input" id="productCategory" required>
+                            <option value="">اختر الفئة</option>
+                            <option value="phones">هواتف</option>
+                            <option value="screens">شاشات</option>
+                            <option value="accessories">إكسسوارات</option>
+                            <option value="audio">صوتيات</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">اسم المنتج *</label>
+                        <input type="text" class="form-input" id="productName" placeholder="اسم المنتج" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">الوصف / الموديل</label>
+                        <input type="text" class="form-input" id="productModel" placeholder="مثال: 512GB - أسود" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">الكمية المتاحة *</label>
+                        <input type="number" class="form-input" id="productQuantity" placeholder="عدد القطع" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">السعر (ج.م) *</label>
+                        <input type="number" class="form-input" id="productPrice" placeholder="السعر" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">رابط الصورة</label>
+                        <input type="url" class="form-input" id="productImgUrl" placeholder="https://example.com/image.jpg">
                     </div>
                 </div>
                 <div class="modal-actions">
@@ -750,6 +1219,68 @@
         </div>
     </div>
 
+    <!-- Success Toast -->
+    <div id="successToast" class="success-toast" style="display: none;">
+        <i class="fas fa-check-circle"></i>
+        تم إضافة المنتج بنجاح!
+    </div>
+
+    <script>
+        // Navigation System
+        const sections = {
+            'dashboard': document.getElementById('dashboard-section'),
+            'products': document.getElementById('products-section'),
+            'orders': document.getElementById('orders-section'),
+            'reports': document.getElementById('reports-section'),
+            'settings': document.getElementById('settings-section')
+        };
+        
+        const navLinks = document.querySelectorAll('.nav-link[data-section]');
+        const pageTitle = document.getElementById('pageTitle');
+        
+        const sectionTitles = {
+            'dashboard': 'لوحة التحكم',
+            'products': 'الأصناف',
+            'orders': 'الطلبات',
+            'reports': 'التقارير',
+            'settings': 'الإعدادات'
+        };
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                const section = link.dataset.section;
+                
+                // Update active nav
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                // Update page title
+                pageTitle.textContent = sectionTitles[section];
+                
+                // Show section
+                Object.values(sections).forEach(s => {
+                    if (s) s.style.display = 'none';
+                });
+                if (sections[section]) {
+                    sections[section].style.display = 'block';
+                }
+            });
+        });
+        
+        // Logout functionality
+        document.querySelector('.logout-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (confirm('هل تريد تسجيل الخروج؟')) {
+                localStorage.removeItem('branchToken');
+                window.location.href = '../pages/login-branch.html';
+            }
+        });
+
+    </script>
+    
+    <!-- Keep existing scripts for dashboard functionality -->
     <script src="../js/theme.js"></script>
     <script src="../js/main.js"></script>
     <script src="../js/branch-dashboard.js"></script>
