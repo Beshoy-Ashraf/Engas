@@ -225,21 +225,74 @@ document.addEventListener('DOMContentLoaded', function () {
 
         console.log('Branch Data:', data);
 
-        // Simulate API call
-        setTimeout(() => {
-            // Show success message
-            successToast.classList.add('show');
+        const API_BASE_URL = 'http://0.0.0.0:5107';
+        const endpoint = `${API_BASE_URL}/api/authentication/store-register`;
 
-            // Reset form
-            branchForm.reset();
-            currentStep = 1;
-            updateSteps();
+        // Prepare payload for StoreRegistrationRequest
+        const payload = {
+            Name: (data.branchName ?? '').toString().trim(),
+            Phone: (data.branchPhone ?? '').toString().trim(),
+            City: (data.branchGovernorate ?? '').toString().trim(),
+            Code: (data.branchCode ?? '').toString().trim(),
+            Password: (data.branchPassword ?? '').toString()
+        };
 
-            // Redirect
-            setTimeout(() => {
-                window.location.href = '../index.html';
-            }, 2000);
-        }, 500);
+        const originalBtnText = submitBtn?.innerHTML;
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span>جاري تسجيل الفرع...</span> <i class="fas fa-spinner fa-spin"></i>';
+        }
+
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+
+        fetch(endpoint, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(payload)
+        })
+            .then(async (response) => {
+                const isJson = (response.headers.get('content-type') || '').includes('application/json');
+                const body = isJson ? await response.json() : await response.text();
+
+                if (!response.ok) {
+                    const msg = typeof body === 'string' ? body : (body?.message || JSON.stringify(body));
+                    throw new Error(msg || `Request failed with status ${response.status}`);
+                }
+
+                // Show success message
+                successToast.classList.add('show');
+
+                // Reset form
+                branchForm.reset();
+                currentStep = 1;
+                updateSteps();
+
+                // Redirect
+                setTimeout(() => {
+                    window.location.href = '../index.html';
+                }, 2000);
+            })
+            .catch((err) => {
+                console.error('Register branch error:', err);
+                const message = err?.message || 'حدث خطأ أثناء تسجيل الفرع';
+
+                // Reuse toast element but show error style if present
+                if (successToast) {
+                    const p = successToast.querySelector('p');
+                    if (p) p.textContent = message;
+                    successToast.classList.add('show');
+                } else {
+                    alert(message);
+                }
+            })
+            .finally(() => {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    if (originalBtnText) submitBtn.innerHTML = originalBtnText;
+                }
+            });
     });
 
     // Real-time validation
