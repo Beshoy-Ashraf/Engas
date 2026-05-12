@@ -148,5 +148,6 @@ app.MapControllers();
 app.MapGet("/", () => Results.Redirect("/swagger"));
 
 app.MapGet("/health", () => "Healthy");
+app.MapGet("/", () => "ENGAS API RUNNING");
 
 app.Run();
