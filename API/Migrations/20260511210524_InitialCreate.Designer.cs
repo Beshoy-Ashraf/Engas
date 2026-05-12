@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20260427181727_AddCustomerColumns")]
-    partial class AddCustomerColumns
+    [Migration("20260511210524_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -112,6 +112,94 @@ namespace API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("API.Data.Models.Order.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("StaffId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("TotalAmount")
+                        .HasColumnType("double precision");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("StaffId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("API.Data.Models.Order.OrderItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDelivered")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ItemSerial")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid");
+
+                    b.Property<byte[]>("PdfData")
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("PdfFileName")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("StoreId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("StoreId");
+
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("API.Data.Models.Staff.Staff", b =>
@@ -246,6 +334,52 @@ namespace API.Migrations
                     b.ToTable("StoreStockLevels");
                 });
 
+            modelBuilder.Entity("API.Data.Models.Order.Order", b =>
+                {
+                    b.HasOne("API.Data.Models.Customer.Customer", "Customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Data.Models.Staff.Staff", "Staff")
+                        .WithMany("Orders")
+                        .HasForeignKey("StaffId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Staff");
+                });
+
+            modelBuilder.Entity("API.Data.Models.Order.OrderItem", b =>
+                {
+                    b.HasOne("API.Data.Models.Item.Item", "Item")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Data.Models.Order.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Data.Models.Store.Store", "Store")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Store");
+                });
+
             modelBuilder.Entity("API.Data.Models.StoreStock.StoreStockLevel", b =>
                 {
                     b.HasOne("API.Data.Models.Item.Item", "Item")
@@ -273,13 +407,32 @@ namespace API.Migrations
                     b.Navigation("Store");
                 });
 
+            modelBuilder.Entity("API.Data.Models.Customer.Customer", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
             modelBuilder.Entity("API.Data.Models.Item.Item", b =>
                 {
+                    b.Navigation("OrderItems");
+
                     b.Navigation("StoreStocks");
+                });
+
+            modelBuilder.Entity("API.Data.Models.Order.Order", b =>
+                {
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("API.Data.Models.Staff.Staff", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("API.Data.Models.Store.Store", b =>
                 {
+                    b.Navigation("OrderItems");
+
                     b.Navigation("StoreStockLevel");
                 });
 #pragma warning restore 612, 618
