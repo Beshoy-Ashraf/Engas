@@ -4,7 +4,7 @@ using Engas;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+
 using Npgsql;
 using NpgsqlTypes;
 using Microsoft.Extensions.Logging;
@@ -55,41 +55,9 @@ builder.Services.AddDbContext<AppDBContext>(options =>
         }));
 
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    var jwtSecurityScheme = new OpenApiSecurityScheme
-    {
-        BearerFormat = "JWT",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.Http,
-        Scheme = JwtBearerDefaults.AuthenticationScheme,
-        Description = "JWT Authorization header using the Bearer scheme.",
 
-        Reference = new OpenApiReference
-        {
-            Id = JwtBearerDefaults.AuthenticationScheme,
-            Type = ReferenceType.SecurityScheme
-        }
-    };
-    options.AddSecurityDefinition("Bearer", jwtSecurityScheme);
 
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Id = "Bearer",
-                    Type = ReferenceType.SecurityScheme
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
-});
+
 builder.Services.RegisterBusinessServices();
 
 builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
@@ -136,18 +104,13 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI();
-
-
+// Swagger is temporarily disabled to avoid OpenAPI runtime type-load issues.
+// app.UseSwagger();
+// app.UseSwaggerUI();
 
 app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-app.MapGet("/", () => Results.Redirect("/swagger"));
-
-app.MapGet("/health", () => "Healthy");
-app.MapGet("/", () => "ENGAS API RUNNING");
 
 app.Run();

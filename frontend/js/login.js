@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordInput = document.getElementById('password');
     const loginBtn = loginForm.querySelector('.login-btn');
 
-    const API_BASE_URL = 'http://0.0.0.0:5107';
+    const API_BASE_URL = 'https://engas-production.up.railway.app'; // Update with your actual API base URL
 
     // Toast message (shows inline on the page with animation)
     let toastTimer = null;

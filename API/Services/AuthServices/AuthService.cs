@@ -101,6 +101,9 @@ public class AuthService : IAuthService
 
         try
         {
+            if (loginRequest == null)
+                throw new UnauthorizedAccessException("Invalid username or password.");
+
             var staff = await _db.Staffs
                 .FirstOrDefaultAsync(u => u.UserName == loginRequest.UserName && u.DeletedDate == null, ct)
                 ?? throw new UnauthorizedAccessException("Invalid username or password.");
