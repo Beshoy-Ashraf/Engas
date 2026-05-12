@@ -60,7 +60,12 @@ builder.Services.RegisterBusinessServices();
 builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
 
 var jwtConfig = builder.Configuration.GetSection("JwtConfig").Get<JwtConfig>()!;
+if (string.IsNullOrWhiteSpace(jwtConfig.Secret))
+{
+    throw new InvalidOperationException("JwtConfig:Secret is missing or empty. Check production appsettings/environment variables.");
+}
 var key = Encoding.ASCII.GetBytes(jwtConfig.Secret);
+
 
 builder.Services.AddAuthentication(options =>
 {

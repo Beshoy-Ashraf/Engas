@@ -3,6 +3,8 @@ using API.Contract.User.Response;
 using API.Services.AuthServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+
 
 namespace API.Controllers;
 
@@ -47,9 +49,10 @@ public class AuthController : ControllerBase
             {
                   return Unauthorized(ex.Message);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                  return StatusCode(500, ex.Message);
+                  // Never expose internals to clients; log server-side inside the service/controller.
+                  return StatusCode(500, "An error occurred while processing the request.");
             }
       }
       [Authorize(Roles = "Admin")]

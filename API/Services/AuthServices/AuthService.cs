@@ -18,11 +18,13 @@ public class AuthService : IAuthService
 {
     private readonly AppDBContext _db;
     private readonly JwtConfig _jwtConfig;
+    private readonly ILogger<AuthService> _logger;
 
-    public AuthService(AppDBContext db, IOptions<JwtConfig> jwtConfig)
+    public AuthService(AppDBContext db, IOptions<JwtConfig> jwtConfig, ILogger<AuthService> logger)
     {
         _db = db;
         _jwtConfig = jwtConfig.Value;
+        _logger = logger;
     }
 
     public async Task<TokenResponse> StaffRegisterAsync(UserRegistrationRequest registerRequest, CancellationToken ct)
@@ -93,21 +95,51 @@ public class AuthService : IAuthService
 
     public async Task<TokenResponse> StaffLoginAsync(UserLoginRequest loginRequest, CancellationToken ct)
     {
-        var staff = await _db.Staffs
-            .FirstOrDefaultAsync(u => u.UserName == loginRequest.UserName && u.DeletedDate == null, ct)
-            ?? throw new UnauthorizedAccessException("Invalid username or password.");
+        _logger.LogInformation(
+            "Staff login attempt for UserName={UserName}",
+            loginRequest?.UserName);
 
-        if (staff.Password != loginRequest.Password)
-            throw new UnauthorizedAccessException("Invalid password.");
-
-        var token = GenerateStaffJwtToken(staff);
-
-        return new TokenResponse
+        try
         {
-            Token = token,
-            RefreshToken = string.Empty,
-            UserId = staff.Id.ToString()
-        };
+            var staff = await _db.Staffs
+                .FirstOrDefaultAsync(u => u.UserName == loginRequest.UserName && u.DeletedDate == null, ct)
+                ?? throw new UnauthorizedAccessException("Invalid username or password.");
+
+            if (staff.Password != loginRequest.Password)
+                throw new UnauthorizedAccessException("Invalid password.");
+
+            var token = GenerateStaffJwtToken(staff);
+
+            _logger.LogInformation(
+                "Staff login success for UserName={UserName}, StaffId={StaffId}",
+                loginRequest.UserName,
+                staff.Id);
+
+            return new TokenResponse
+            {
+                Token = token,
+                RefreshToken = string.Empty,
+                UserId = staff.Id.ToString()
+            };
+        }
+        catch (Exception ex) when (ex is UnauthorizedAccessException)
+        {
+            _logger.LogWarning(
+                ex,
+                "Staff login failed (unauthorized) for UserName={UserName}",
+                loginRequest?.UserName);
+
+            throw;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(
+                ex,
+                "Staff login failed (unexpected) for UserName={UserName}",
+                loginRequest?.UserName);
+
+            throw;
+        }
     }
     public async Task<TokenResponse> StoreLoginAsync(StoreLoginRequest loginRequest, CancellationToken ct)
     {
