@@ -95,9 +95,7 @@ public class AuthService : IAuthService
 
     public async Task<TokenResponse> StaffLoginAsync(UserLoginRequest loginRequest, CancellationToken ct)
     {
-        _logger.LogInformation(
-            "Staff login attempt for UserName={UserName}",
-            loginRequest?.UserName);
+
 
         try
         {
@@ -113,10 +111,7 @@ public class AuthService : IAuthService
 
             var token = GenerateStaffJwtToken(staff);
 
-            _logger.LogInformation(
-                "Staff login success for UserName={UserName}, StaffId={StaffId}",
-                loginRequest.UserName,
-                staff.Id);
+
 
             return new TokenResponse
             {
